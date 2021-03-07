@@ -1,0 +1,296 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% block content %}
+<div class="right-side-bar">
+    {% for ad in ads %}
+    {% if ad.image %}
+    {% if forloop.last %}
+    <a href="{% url 'ad-detail' ad.id %}" target="_self" style="color: inherit;text-decoration:none;">
+        <div class="covid-warning" style="background-color: transparent;border:none;color:inherit;max-height:200px;margin-bottom: -25px;">
+        <div class="cutoff" style="position:relative;top:50px;height:150px;max-width: 150px;">    
+            <img src="{{ ad.image.url }}" alt="{{ ad.name }} image" class="img-market">
+        </div>
+            <div class="contain-covid-warning">
+        <p style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:rgb(181, 181, 181);font-weight: 500;padding-left:20px;top:-50px;">Sponsored <i class="fas fa-external-link-alt"></i></p>
+                <h2 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 18px;color:rgb(227, 227, 227);font-weight: 300;top: -100px;padding-left:20px;">{{ ad.title }}</h2>
+                <p style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 13px;color:rgb(255, 255, 255);font-weight: 300;top: -150px;padding-left:20px;line-height: 18px;">{{ ad.content }}</p>
+            </div>
+        </div>
+    </a>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+</div>
+
+
+<div class="push-up">
+    {% for post in posts %}
+        {% if forloop.first %}
+            <img class="banner-image-user-posts" src="{{ post.author.profile.Choose_banner.url }}">
+            <a href="{% url 'user-posts' post.author.username %}"><img class="author-profile" src="{{ post.author.profile.image.url }}"></a>
+            <h1 class="abouttext" style="color:white;">{{ view.kwargs.username }}{% if post.author.profile.verified %}&nbsp;&nbsp;<i class="fas fa-check-circle" style="color:#777;"></i>{% endif %}</h1>
+            {% if view.kwargs.username == user.username %}
+                {% if user.is_authenticated %}
+                <div class="contain-options">
+                    <a href="{% url 'profile' %}" style="text-decoration: none;color: inherit;display:inline-block;"><button class="global-btn-5">Settings&nbsp;&nbsp;&nbsp;<i class="fas fa-cogs"></i></button></a>
+                    <a href="{% url 'logout' %}" style="text-decoration: none;color: inherit;display:inline-block;"><button class="global-btn-6">Logout</button></a>   
+                </div>
+                {% endif %}
+            {% endif %}
+                <br />
+            <div class="blog-container pl-2 pr-2 mb-3 p-2" style="height:85px;border-radius: 15px;display:flex;justify-content: center;background-color: rgb(24, 24, 24);">
+                <small id="innerprofile-text" style="position:absolute;top:-12.5px;border-radius:5px;left: 15px;background-color:rgb(0, 115, 255);color:white;padding-left:10px;padding-right:10px;padding-top:2px;padding-bottom:2px;font-weight:600;">Profile</small>
+                <button class="profile-choose-btns" onclick="openCity(event, 'Posts')" id="defaultOpen" tooltip="Posts" flow="up" ><i style="font-size: 32px;" class="fas fa-align-justify"></i></button>
+                <button class="profile-choose-btns" onclick="openCity(event, 'Publications')" tooltip="Publications" flow="up"><i style="font-size: 32px;" class="far fa-file-alt"></i></button>
+                <button class="profile-choose-btns" onclick="openCity(event, 'Saved')" tooltip="Saved" flow="up"><i style="font-size: 32px;" class="far fa-bookmark"></i></button>
+                <button class="profile-choose-btns" onclick="openCity(event, 'About')" tooltip="About" flow="up"><i style="font-size: 32px;" class="far fa-address-book"></i></button>
+            </div>
+        {% endif %}
+        {% empty %}
+        <br />
+        <!-- <img src="#" style="width:50px;height:50px;border-radius:50%;margin: 0 auto;display:block;padding: 5px;"> -->
+            <h1 class="abouttext" style="color:white;">{{ view.kwargs.username }}</h1>
+            {% if view.kwargs.username == user.username %}
+                {% if user.is_authenticated %}
+                    <div class="contain-options">
+                        <a href="{% url 'profile' %}" style="text-decoration: none;color: inherit;"><button class="global-btn-5">Settings&nbsp;&nbsp;&nbsp;<i class="fas fa-cogs"></i></button></a>
+                        <a class="a" href="{% url 'logout' %}"><button class="global-btn-6">Logout</button></a>   
+                    </div>
+                {% endif %}
+            {% endif %}
+            <p style="color: white;text-align:center;display:block;font-size:14px;margin-top: 40%;margin-bottom:40%;">This user has no posts. We are acknowledging their privacy. To access private details, contact them.</p>
+    {% endfor %}
+</div>
+{% for post in posts %}
+{% if forloop.first %}
+<div class="partcontent" id="Posts">
+    {% for post in posts %}
+    {% if forloop.first %}
+    <h2 style="position:relative;margin-top:-50px;margin-bottom:-5px;font-family: 'Open Sans', sans-serif;font-size:15px;color:#444;text-align: left;">{{ page_obj.paginator.count }} post(s)</h2>
+    {% endif %}
+    {% endfor %}
+    <!-- Preload animation -->
+    <div class="timeline-wrapper" id="timeline-wrapper">
+        <div class="timeline-item">
+            <div class="animated-background">
+                <div class="background-masker header-top"></div>
+                <div class="background-masker header-left"></div>
+                <div class="background-masker header-right"></div>
+                <div class="background-masker header-bottom"></div>
+                <div class="background-masker subheader-left"></div>
+                <div class="background-masker subheader-right"></div>
+                <div class="background-masker subheader-bottom"></div>
+                <div class="background-masker content-top"></div>
+                <div class="background-masker content-first-end"></div>
+                <div class="background-masker content-second-line"></div>
+                <div class="background-masker content-second-end"></div>
+                <div class="background-masker content-third-line"></div>
+                <div class="background-masker content-third-end"></div>
+            </div>
+        </div>
+    </div>
+    <div class="timeline-wrapper" id="timeline-wrapper-2">
+        <div class="timeline-item">
+            <div class="animated-background">
+                <div class="background-masker header-top"></div>
+                <div class="background-masker header-left"></div>
+                <div class="background-masker header-right"></div>
+                <div class="background-masker header-bottom"></div>
+                <div class="background-masker subheader-left"></div>
+                <div class="background-masker subheader-right"></div>
+                <div class="background-masker subheader-bottom"></div>
+                <div class="background-masker content-top"></div>
+                <div class="background-masker content-first-end"></div>
+                <div class="background-masker content-second-line"></div>
+                <div class="background-masker content-second-end"></div>
+                <div class="background-masker content-third-line"></div>
+                <div class="background-masker content-third-end"></div>
+            </div>
+        </div>
+    </div>
+    <div class="timeline-wrapper" id="timeline-wrapper-3">
+        <div class="timeline-item">
+            <div class="animated-background">
+                <div class="background-masker header-top"></div>
+                <div class="background-masker header-left"></div>
+                <div class="background-masker header-right"></div>
+                <div class="background-masker header-bottom"></div>
+                <div class="background-masker subheader-left"></div>
+                <div class="background-masker subheader-right"></div>
+                <div class="background-masker subheader-bottom"></div>
+                <div class="background-masker content-top"></div>
+                <div class="background-masker content-first-end"></div>
+                <div class="background-masker content-second-line"></div>
+                <div class="background-masker content-second-end"></div>
+                <div class="background-masker content-third-line"></div>
+                <div class="background-masker content-third-end"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="preload">
+        {% for post in posts %}
+        <sub>{{ forloop.counter }}</sub>
+        <article class="blog-container" id="blog-container">
+            <a href="{% url 'user-posts' post.author.username %}"><img class="author" src="{{ post.author.profile.image.url }}"></a>
+                    <a class="author-title" href="{% url 'user-posts' post.author.username %}">{{ post.author }}{% if post.author.profile.verified %}&nbsp;&nbsp;<i class="fas fa-check-circle" style="color:#777;"></i>{% endif %}</a>
+                {% if post.title %}        
+                    <div class="blogs-title-close"><h2><a class="blogs-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2></div>
+                {% endif %}
+                {% if post.content %}
+                {% if post.title %}
+                {% else %}
+                <div style="height:15px"></div>
+                {% endif %}
+                {% if post.content|length > 200 %}
+                <p class="blogs">{{ post.content|urlize|truncatechars:200 }}...&nbsp;<a class="a" href="{% url 'post-detail' post.id %}" style="font-family: 'Charter Bold', sans-serif;">Read More</a></p>
+                {% else %}
+                <a href="{% url 'post-detail' post.id %}"><p class="blogs">{{ post.content|urlize }}</p></a>
+                {% endif %}
+                {% endif %}
+                {% if post.image %}
+                <div class="cutoff" style="width: 100%;max-height: 800px;height:100%;overflow-y:hidden;margin-bottom: 25px;border-radius: 0px;">    
+                    <img class="img-market" style="width: 100%;height:auto;" src="{{ post.image.url }}" alt="{{ post.name }} image">
+                </div>
+                <p class="blogs">{{ post.content|urlize|truncatechars:200 }}...&nbsp;<a class="a" href="{% url 'post-detail' post.id %}" style="font-family: 'Charter Bold', sans-serif;">Read More</a></p>
+                {% endif %}
+                {% if post.location %}
+                    <p class="blogs-location">Post was made in <a class="a-location" target="_blank" href="https://www.google.com/maps/search/{{ post.location }}">{{ post.location|get_city_string }}</a>.&nbsp;&nbsp;&nbsp;<i class="fas fa-map-pin"></i></p>
+                {% endif %}
+                {% if post.author == user %}
+                    <a href="{% url 'post-changelog' post.id %}" class="a-blue">See changelog&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i></a>
+                {% endif %}
+            <div class="clear">
+                <h2 style="position: relative;font-family: 'Open Sans', sans-serif;float:left;font-size: 14px;color:#888;display: block;padding-left: 25px;padding-right: 25px;">{{ post.blog_views }} <i class="far fa-eye"></i>&nbsp;&nbsp;•&nbsp;&nbsp;{{ post.total_likes }}{% if user.is_authenticated %}<form action="{% url 'like-post' post.pk %}" method="POST" style="display: inline-block;">{% csrf_token %}<button type="submit" name="post_id" value="{{ post.id }}" style="border:none;background-color:transparent;color:inherit;"><i class="fas fa-heart"></i></button></form>{% else %} <i class="fas fa-heart"></i>{% endif %}&nbsp;&nbsp;•&nbsp;&nbsp;{{ post.comments.count }} <i class="fas fa-comment"></i></h2>
+                    <sub style="display:none;pointer-events: none;" id="{{ post.id }}">localhost:8000{% url 'post-detail' post.id %}</sub>
+                    <a onclick="copyToClipboard('#{{ post.id }}')" style="position: relative;font-family: 'Open Sans', sans-serif;float:right;font-size: 14px;color:#888;display: block;padding-left: 25px;padding-right: 25px;z-index: 2;">
+                        <button class="btn-linker">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </a>
+            </div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_comment' post.pk %}"><button class="btn-addcomment-home">Add comment</button></a>
+            {% else %}
+                <a href="{% url 'register' %}"><button class="btn-addcomment-home">Register or log in to comment</button></a>
+            {% endif %}
+            {% for comment in post.comments.all %}
+            {% if forloop.first %}
+                <div class="organize-comments ml-4 mr-4" style="margin-bottom: -5px !important;">
+                    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:14px;color:#777;text-align: left;">{{ comment.author }} - {{ comment.date_posted }}</h1>
+                    <p style="font-size:15px;color:#777;">{{ comment.write_comment }}</p>
+                </div>
+            <a class="hover-a" href="{% url 'post-detail' post.id %}#comment-section" style="font-family: sans-serif;font-size:14px;line-height:50px;top:-5px;position:relative;font-weight:600;margin-left:20px;color:rgb(152, 152, 152);">See more</a>
+            {% endif %}
+            {% endfor %}
+        </article>
+    {% endfor %}
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'+3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+
+</div>
+</div>
+
+<div class="partcontent" id="Publications">
+    <h1 style="font-family: 'Kievit Serif', sans-serif;margin-top:-25px;font-size:32px;color:white;padding-left:25px;padding-right:25px;">Publications</h1>
+    <p style="position: relative;text-align: center;color:gray;padding-left:10px;padding-right:10px;display: block;margin-bottom:75px;margin-top:50px;">This user has no publications.</p>
+</div>
+
+<div class="partcontent" id="Saved">
+    <h1 style="font-family: 'Kievit Serif', sans-serif;margin-top:-25px;font-size:32px;color:white;padding-left:25px;padding-right:25px;">Saved</h1>
+    <p style="position: relative;text-align: center;color:gray;padding-left:10px;padding-right:10px;display: block;margin-bottom:75px;margin-top:50px;">This user has no saved posts.</p>
+</div>
+
+<div class="partcontent" id="About">
+        {% for post in posts %}
+        {% if forloop.first %}
+        <h1 style="font-family: 'Kievit Serif', sans-serif;margin-top:-25px;font-size:32px;color:white;padding-left:25px;padding-right:25px;">About {{ view.kwargs.username }}</h1>
+        {% if post.author.profile.Write_your_bio %}
+        <h2 style="font-family: 'Charter', sans-serif;margin-top:0px;font-size:18px;color:rgb(196, 196, 196);padding-left:25px;padding-right:25px;line-height: 34px;">{{ post.author.profile.Write_your_bio|urlize }}</h2>
+        {% else %}
+        <h2 style="font-family: 'Charter', sans-serif;margin-top:0px;font-size:18px;color:rgb(160, 160, 160);padding-left:25px;padding-right:25px;line-height: 34px;">This user does not have a bio.</h2>
+        {% endif %}
+        {% if post.author.profile.Add_current_employer %}
+            <p style="font-family: 'Charter Bold', sans-serif;margin-top:0px;font-size:16px;color:rgb(36, 135, 255);padding-left:25px;padding-right:25px;line-height: 24px;"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Works at {{ post.author.profile.Add_current_employer }} as a {{ post.author.profile.Add_current_title }}</p>
+        {% endif %}
+        {% if post.author.profile.Add_an_education_credential %}
+            <p style="font-family: 'Charter Bold', sans-serif;margin-top:0px;font-size:16px;color:rgb(36, 135, 255);padding-left:25px;padding-right:25px;line-height: 24px;"><i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;&nbsp;Studied at {{ post.author.profile.Add_an_education_credential }}</p>
+        {% endif %}
+        {% if post.author.profile.Add_Facebook or post.author.profile.Add_Twitter or post.author.profile.Add_YouTube or post.author.profile.Add_Instagram or post.author.profile.Add_your_personal_website %}
+        <h1 style="font-family: 'Kievit Serif', sans-serif;margin-top:25px;margin-bottom:15px;font-size:24px;color:white;padding-left:25px;padding-right:25px;">Social Media</h1>
+        {% endif %}
+        {% if post.author.profile.Add_Facebook %}
+            <a href="https://www.facebook.com/{{ post.author.profile.Add_Facebook }}" style="color:inherit;text-decoration:none;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png" style="margin-left:25px;width:25px;height:25px;float:left;"></a>
+        {% endif %}
+        {% if post.author.profile.Add_Twitter %}
+            <a href="https://www.twitter.com/{{ post.author.profile.Add_Twitter }}" style="color:inherit;text-decoration:none;"><img src="https://pitlochryfestivaltheatre.com/wp-content/uploads/2020/04/2-27646_twitter-logo-png-transparent-background-logo-twitter-png-1024x1024.png" style="margin-left:25px;width:25px;height:25px;float:left;"></a>
+        {% endif %}
+        {% if post.author.profile.Add_YouTube %}
+            <a href="https://www.youtube.com/{{ post.author.profile.Add_YouTube }}" style="color:inherit;text-decoration:none;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/YouTube_social_red_circle_%282017%29.svg/1024px-YouTube_social_red_circle_%282017%29.svg.png" style="margin-left:25px;width:25px;height:25px;float:left;"></a>
+        {% endif %}
+        {% if post.author.profile.Add_Instagram %}
+            <a href="https://www.instagram.com/{{ post.author.profile.Add_Instagram }}" style="color:inherit;text-decoration:none;"><img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-instagram-new-circle-512.png" style="margin-left:25px;width:25px;height:25px;float:left;"></a>
+        {% endif %}
+        {% if post.author.profile.Add_your_personal_website %}
+            {% if 'https://www.' in post.author.profile.Add_your_personal_website %}
+                <a href="{{ post.author.profile.Add_your_personal_website }}" style="-webkit-filter: invert(100%);filter: invert(100%);color:inherit;text-decoration:none;"><img src="https://i.pinimg.com/originals/1f/68/c3/1f68c3a326e43776c6315e1622f6d9e5.png" style="margin-left:25px;width:25px;height:25px;float:left;"></a>
+            {% else %}
+                <a href="https://{{ post.author.profile.Add_your_personal_website }}" style="-webkit-filter: invert(100%);filter: invert(100%);color:inherit;text-decoration:none;"><img src="https://i.pinimg.com/originals/1f/68/c3/1f68c3a326e43776c6315e1622f6d9e5.png" style="margin-left:25px;width:25px;height:25px;float:left;"></a>
+            {% endif %}
+        {% endif %}
+        {% endif %}
+        {% empty %}
+        <h1>This user has no posts.</h1>
+        {% endfor %}
+</div>
+{% endif %}
+{% empty %}
+{% endfor %}
+
+
+    <script>
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+    </script>
+    <script>
+        function openCity(evt, cityName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("partcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("profile-choose-btns");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(cityName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        
+        document.getElementById("defaultOpen").click();
+    </script>
+{% endblock content %}

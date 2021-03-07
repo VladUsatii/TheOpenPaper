@@ -1,0 +1,79 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% block content %}
+
+    <h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">Ad Statistics</h1>
+    <h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">A summary of your ad postings. No plans. Just clicks.</h1>
+    <h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">Stop the ad whenever you reach your budget. Or simply keep rolling in new customers.</h1>
+    <div class="dashboard-ads">
+        <h1 style="position: relative;font-family: 'Charter Bold', sans-serif;font-size:20px;color:white;padding: 10px;">Total clicks</h1>
+        <h2 class="result-ad-count"></h2>
+        {% for ad in ads %}
+            {% if forloop.first %}
+                <h2 class="result-ad-count-text">Positive Engagement ({{ page_obj.paginator.count }} public ads)</h2>
+            {% endif %}
+            {% empty %}
+                <h2 class="result-ad-count-text" style="color: rgb(194, 0, 0) !important;">No posts</h2>
+        {% endfor %}
+        <h1 style="position: relative;font-family: 'Charter Bold', sans-serif;font-size:18px;color:rgb(177, 177, 177);padding: 10px;">Total engagement</h1>
+        <h2 style="font-size:60px;padding-top:2px;padding-bottom: 2px;color:rgb(227, 227, 227);" class="result-ad-count result-ad-count-2"></h2>
+        <h1 style="position: relative;font-family: 'Charter Bold', sans-serif;font-size:18px;color:rgb(177, 177, 177);padding: 10px;">Total expenses</h1>
+        <h2 style="font-size:60px;padding-top:2px;padding-bottom: 5px;color:rgb(227, 227, 227);" class="result-ad-count result-ad-count-3"></h2>
+        {% for ad in ads %}
+            {% if forloop.first %}
+                <h2 class="result-ad-count-text"><i class="fas fa-receipt"></i>&nbsp;$6.40 CPM</h2>
+            {% endif %}
+            {% empty %}
+                <h2 class="result-ad-count-text" style="color: rgb(194, 0, 0) !important;">No posts</h2>
+        {% endfor %}
+    </div>
+    <h1 style="position: relative;font-family: 'Charter Bold', sans-serif;font-size:25px;color:white;padding-top: 15px;padding-bottom: 10px;">All ad listings</h1>
+    {% for ad in ads %}
+    <div class="blog-container mb-2 p-2">
+        <p style="position: relative;font-family:sans-serif;font-size:13px;color:white;padding-left: 10px;padding-top: 10px;">ID #{{ ad.id }}&nbsp;&nbsp;•&nbsp;&nbsp;<b class="ad-view-count">{{ ad.ad_views }}</b> clicks</p>
+        <h1 style="position: relative;margin-top:-10px;font-family: 'Charter', sans-serif;font-size:18px;color:white;padding-left: 10px;padding-right: 10px;">{{ ad.title }}</h1>
+        <a class="button-update-2" href="{% url 'ad-update' ad.id %}">Update</a>
+        <a class="button-delete-2" href="{% url 'ad-delete' ad.id %}">Delete</a>
+    </div>
+    {% empty %}
+    <div class="blog-container">
+        <h1 style="font-family:'Charter', sans-serif;font-size:20px;padding-top: 100px;padding-bottom: 100px;padding-left: 25px;padding-right: 25px;text-align: center;display: block;color:white;">No ads found.</h1>
+    </div>
+    {% endfor %}
+
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'+3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+
+    <script>
+        var sum = 0;
+        $(".ad-view-count").each(function() {
+            var val = $.trim( $(this).text() );
+            if ( val ) {
+                val = parseFloat( val.replace( /^\$/, "" ));
+                sum += !isNaN( val ) ? val : 0;
+            }
+        });
+        $('.result-ad-count').html(sum);
+        $('.result-ad-count-2').html(Math.round(sum * 5 * 2 / 1.44));
+        $('.result-ad-count-3').html("$" + (sum / 500 * 3.20).toFixed(2));
+    </script>
+{% endblock content %}

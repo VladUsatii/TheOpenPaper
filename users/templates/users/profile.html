@@ -1,0 +1,240 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="right-side-bar">
+    <h1 style="position: relative;font-family:'Charter', sans-serif;font-weight:600;color:white;font-size:22px;">Profile</h1>
+    <div id="navigation">
+        <ul>
+            <li class="itemer"><a href="#section1" style="padding: 10px;">Profile</a></li>
+            <li class="itemer"><a href="#section2" style="padding: 10px;">Customization</a></li>
+        </ul>
+    </div>
+</div>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+            <img class="banner-image-edit" src="{{ user.profile.Choose_banner.url }}">
+            <img class="profile-image-edit" src="{{ user.profile.image.url }}">
+                <div class="media-body">
+                    <h2 class="account-heading">{{ user.username }}</h2>
+                    <p class="account-email">{{ user.email }}</p>
+                    <p>{{ user.bio }}</p>
+                </div>
+            <fieldset class="form-group">
+                <legend style="font-family:'Charter Bold', sans-serif;font-size: 48px !important;" class="border-bottom mb-0">Profile</legend>
+                <h2 style="font-family: 'Open Sans', sans-serif;font-size:20px;color:rgb(126, 126, 126);">Customize your public or private profile. To change privacy settings or ad recommendation settings, please visit this link.</h2>
+                <div id="section1" class="section">
+                    {{ u_form}}
+                </div>
+                <legend class="border-bottom mt-3 mb-0">Customize Images</legend>
+                <small style="font-size:15px;font-family:'Open Sans', sans-serif;color:#999;">Please upload an image that is a box size (for example, 200x200, 500x500, 1000x1000). Uploading an original picture will result in a smushed aspect ratio.</small>
+                <div id="section2" class="section">
+                    <label id="hiddenimgreplace">
+                        {{ p_form.image }}
+                        <br /><br /><span class="uploadadtxt">Change your profile image</span>
+                    </label>
+                    <div id="hidden_or_not2" style="display: none;">
+                        <br />
+                        <div class="cutoff" id="hidden_or_not" style="position:relative;display: none;width:50%;top:50px;margin-bottom: 75px;border: solid 1px white;">
+                            <img id="preview" src="#" class="img-market"/>
+                        </div>
+                    </div>
+                    <br />
+                    <label id="hiddenimgreplace2">
+                        {{ p_form.Choose_banner }}
+                        <br /><br /><span class="uploadadtxt">Change your banner image</span>
+                    </label>
+                    <div id="hidden_or_not4" style="display: none;">
+                        <br />
+                        <div class="cutoff" id="hidden_or_not3" style="position:relative;display: none;width:50%;top:50px;margin-bottom: 75px;border: solid 1px white;">
+                            <img id="preview2" src="#" class="img-market"/>
+                        </div>
+                    </div>
+                    <legend class="border-bottom mt-3 mb-0">About you</legend>
+                    <small style="font-size:15px;font-family:'Open Sans', sans-serif;color:#999;">Add more details about yourself. Only non-personal fields will be added to your public profile.</small>
+                    <div style="height:25px;"></div>
+                    {{ p_form.Write_your_bio }}
+                    <br />
+                    {{ p_form.Add_current_title }}
+                    <br />
+                    {{ p_form.Add_current_employer }}
+                    <br />
+                    {{ p_form.Add_an_education_credential }}
+                    <br />
+                    {{ p_form.Choose_gender }}
+                    <br />
+                    {{ p_form.Current_city }}
+                    <br />
+                    {{ p_form.Current_address }}
+                    <br />
+                    {{ p_form.Add_hometown }}
+                    <br />
+                    <legend class="border-bottom mt-3 mb-0">Social links</legend>
+                    <small style="font-size:15px;font-family:'Open Sans', sans-serif;color:#999;">Add your other social media links here. We will feature them on your profile.</small>
+                    <div style="height:25px;"></div>
+                    {{ p_form.Add_Facebook }}
+                    <br />
+                    {{ p_form.Add_Twitter }}
+                    <br />
+                    {{ p_form.Add_YouTube }}
+                    <br />
+                    {{ p_form.Add_Instagram }}
+                    <br />
+                    {{ p_form.Add_your_personal_website }}
+                </div>
+                {% if user.profile.verified %}
+                <br style="line-height: 25px;"/>
+                {% else %}
+                <br style="line-height: 25px;"/>
+                <hr style="background-color:#333;width:75%;"/>
+                <br style="line-height: 25px;">
+            <div id="section3" class="section">
+                <div class="blog-container p-4">
+                    <h4 style="font-family: 'Kievit Serif', sans-serif;font-size:28px;">Want to get verified?</h4>
+                        <h5 style="font-family: 'Kievit Serif', sans-serif;font-size:20px;color:#999;">Need that check mark symbol?</h5>
+                            <p style="font-size:17px;">We accept valid ID submissions of the individual whom requests verification. <a href="{% url 'blog-verification' %}" class="a">Read more about our policies and regulations here.</a></p>
+                </div>
+            </div>
+                <br style="line-height: 25px;"/>
+                {% endif %}
+            </fieldset>
+            <div class="form-group">
+                <button class="global-btn-2" type="submit">Update profile</button>
+            </div>
+</form>
+
+<p style="font-family:'Open Sans', sans-serif;font-size: 20px;color:white;font-weight:300;">Suspending a user account</p>
+<a href="{% url 'deleteuser' %}" class="a" style="position:relative;color:rgb(255, 86, 86);margin-bottom:25px;">Delete your account</a>
+
+<script>
+    document.getElementById('id_Write_your_bio').placeholder='What\'s your story in 500 words?';
+    document.getElementById('id_Add_an_education_credential').placeholder='Enter a real school (high school, college, private, etc.)';
+    document.getElementById('id_Add_current_title').placeholder='Enter the title of your job, where you work.';
+    document.getElementById('id_Add_current_employer').placeholder='Enter a real business.';
+    
+    document.getElementById('id_Current_city').placeholder='Add your current city.';
+    document.getElementById('id_Current_address').placeholder='Add your current address.';
+    document.getElementById('id_Add_hometown').placeholder='Add your hometown.';
+    document.getElementById('id_Add_Facebook').placeholder='Add your Facebook account.';
+    document.getElementById('id_Add_Twitter').placeholder='Add your Twitter account.';
+    document.getElementById('id_Add_YouTube').placeholder='Add your YouTube page.';
+    document.getElementById('id_Add_Instagram').placeholder='Add your Instagram account.';
+    document.getElementById('id_Add_your_personal_website').placeholder='Add your personal website or other social media account.';
+</script>
+
+<script>
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+            $('#preview').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+            $("#hidden_or_not").fadeToggle();
+            $("#hidden_or_not2").fadeToggle();
+            $('#hiddenimgreplace').css("display", "none");
+        } else {
+            $("#hidden_or_not").fadeToggle();
+        }
+        }
+
+        $("#id_image").change(function() {
+            readURL(this);
+        });
+
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+            $('#preview2').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+            $("#hidden_or_not3").fadeToggle();
+            $("#hidden_or_not4").fadeToggle();
+            $('#hiddenimgreplace2').css("display", "none");
+        } else {
+            $("#hidden_or_not2").fadeToggle();
+        }
+        }
+
+        $("#id_Choose_banner").change(function() {
+            readURL2(this);
+        });
+
+
+
+
+
+    // cache the navigation links 
+    var $navigationLinks = $('#navigation > ul > li > a');
+    // cache (in reversed order) the sections
+    var $sections = $($(".section").get().reverse());
+
+    // map each section id to their corresponding navigation link
+    var sectionIdTonavigationLink = {};
+    $sections.each(function() {
+        var id = $(this).attr('id');
+        sectionIdTonavigationLink[id] = $('#navigation > ul > li > a[href=\\#' + id + ']');
+    });
+
+    // throttle function, enforces a minimum time interval
+    function throttle(fn, interval) {
+        var lastCall, timeoutId;
+        return function () {
+            var now = new Date().getTime();
+            if (lastCall && now < (lastCall + interval) ) {
+                // if we are inside the interval we wait
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(function () {
+                    lastCall = now;
+                    fn.call();
+                }, interval - (now - lastCall) );
+            } else {
+                // otherwise, we directly call the function 
+                lastCall = now;
+                fn.call();
+            }
+        };
+    }
+
+    function highlightNavigation() {
+        // get the current vertical position of the scroll bar
+        var scrollPosition = $(window).scrollTop();
+
+        // iterate the sections
+        $sections.each(function() {
+            var currentSection = $(this);
+            // get the position of the section
+            var sectionTop = currentSection.offset().top;
+
+            // if the user has scrolled over the top of the section  
+            if (scrollPosition >= sectionTop) {
+                // get the section id
+                var id = currentSection.attr('id');
+                // get the corresponding navigation link
+                var $navigationLink = sectionIdTonavigationLink[id];
+                // if the link is not active
+                if (!$navigationLink.hasClass('active')) {
+                    // remove .active class from all the links
+                    $navigationLinks.removeClass('active');
+                    // add .active class to the current link
+                    $navigationLink.addClass('active');
+                }
+                // we have found our section, so we return false to exit the each loop
+                return false;
+            }
+        });
+    }
+
+    $(window).scroll( throttle(highlightNavigation,100) );
+
+    // if you don't want to throttle the function use this instead:
+    // $(window).scroll( highlightNavigation );
+</script>
+
+{% endblock content %}
+

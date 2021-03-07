@@ -1,0 +1,80 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% load static %} <!-- Don't know why this has to be loaded? -->
+{% block content %}
+    <div class="covid-warning">
+            <img class="img-covid-warning" style="position: relative;height: 75px;margin: 20px;" src="{% static 'blog/covid.png' %}">
+        <div class="contain-covid-warning">
+            <h1 class="h1-covid-warning">Covid-19 is a rapidly evolving situation.</h1>
+            <h3 class="h3-covid-warning">Follow all safety regulations and get real coverage <a href="{% url 'blog-news' %}" class="a">here.</a></h3>
+        </div>
+    </div>
+    <h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">Weather</h1>
+    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 18px;color:#555;margin-bottom: 25px;">This is a public list. Add your city for the world to see, or simply type cmd/ctrl+F and your city name to see if it has been added.</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                {{ form.name }}
+            </div>
+            <div class="control">
+                <button type="submit" class="global-btn-7">
+                    Add City
+                </button>
+            </div>
+        </div>
+        {% if message %}
+            <div class="notification">{{ message }}</div>
+        {% endif %}
+    </form>
+    {% for city_weather in weather_data %}
+    <div class="box">
+        <article class="media">
+            <div class="media-left">
+                    <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Image" class="box-image" />
+            </div>
+            <div class="media-content">
+                        <span class="box-title">{{ city_weather.city }}</span>
+                        <br>
+                        <span class="box-weather">{{ city_weather.temperature }}° F</span>
+                        <br>
+                        <span class="box-description">{{ city_weather.description }}</span>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="media-right">
+                <a href="{% url 'delete_city' city_weather.city %}">
+                    <button class="box-delete">Delete public listing</button>
+                </a>
+            </div>
+            {% endif %}
+        </article>
+    </div>
+    {% endfor %}
+    <br />
+
+    {% if user.is_authenticated %}
+    {% else %}
+            <div class="sign-up-log-in">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+            <div class="sign-up-log-in-2">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+
+            <div class="sign-up-log-in-mobile">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+    {% endif %}
+{% endblock content %}
+
+

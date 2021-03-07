@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% load static %} <!-- Don't know why this has to be loaded? -->
+{% block content %}
+<h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">Groups</h1>
+<h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">Coming soon.</h1>
+<h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">This productivity feature is coming with the release of our first subsidiary.</h1>
+
+    {% if user.is_authenticated %}
+    {% else %}
+            <div class="sign-up-log-in">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+            <div class="sign-up-log-in-2">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+
+            <div class="sign-up-log-in-mobile">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+    {% endif %}
+{% endblock content %}
+
+

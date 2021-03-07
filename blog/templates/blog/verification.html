@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <h1 style="position: relative;margin-left:25px;font-family: 'Kievit Serif', sans-serif;font-size: 42px;color:white;padding-bottom: 25px;">Verification</h1>
+    <div class="smushimages" style="text-align: left;margin-left: 25px;margin-top:-25px;">
+            <img class="curated-image-over-1" style="width:30px;height:30px;" src="../media/productIcon.png">
+            <img class="curated-image-over-1" style="width:30px;height:30px;" src="../media/default.jpg">
+            <span tooltip="Edited last by vlad" flow="up3"><p style="display: inline;position: relative;font-size:13px;padding-left:35px;padding-right:35px;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;font-weight:700;color:rgb(0, 115, 255);">2 contributors</p></span>
+    </div>
+        <h2 class="blogs">Product has recently launched their verification thread. In order to get verified, you must first understand what a verification is and what it looks like:<br /><br />
+        When you get accepted, you are allowed to post advertisements, get billed, and be featured on the Trending tab in the People section. With these privileges, you should be able to advertise and spend money on our site.<br /><br />
+    Before doing this, you must read our <a href="{% url 'blog-docs' %}">Documentation</a> on how to get verified in the first place.<br /><br />
+    Once you have done so, we will put that checkmark there. Not only does it look amazing to viewers, but it gives your page credibility.<br /><br />
+    Once again, the process can be seen <a href="{% url 'blog-docs' %}">by clicking here</a>.</h2>
+{% endblock content %}

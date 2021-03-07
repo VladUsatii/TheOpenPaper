@@ -1,0 +1,13 @@
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Delete your account</legend>
+            <p>Are you sure you want to delete your account?  This will permanently delete any uploaded images, posts, and advertisement targeting data.</p>
+            {{ form }}
+    </fieldset>
+    <div class="form-group">
+        <button class="global-btn-3" type="submit">Delete account</button>
+            <button class="global-btn-4" style="float:right;" 
+               href="{% url 'profile' %}">Return to profile</button>
+    </div>
+</form>

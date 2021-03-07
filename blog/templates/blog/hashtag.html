@@ -1,0 +1,52 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% load static %} <!-- Don't know why this has to be loaded? -->
+{% block content %}
+<h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">#hashtags</h1>
+<h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">A curated list for you.</h1>
+
+{% for post in tech %}
+    {% if forloop.first %}
+        <h1 style="font-family:'Charter Bold',sans-serif;font-size:30px;font-weight:700;color: white;padding-right: 25px;display: block;">#{{ post.Add_post_to_group }}</h1>
+            <h2 style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';font-size:16px;font-weight:500;color: rgb(121, 121, 121);padding-right: 25px;display: block;padding-bottom: 10px;">AI-Generated Group</h2>
+    {% endif %}
+    <article class="blog-container">
+        <a href="{% url 'user-posts' post.author.username %}"><img class="author" src="{{ post.author.profile.image.url }}"></a>
+                <a class="author-title" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                <small class="author-date">Posted on {{ post.date_posted|date:"F d, Y" }}</small>
+            <div class="blogs-title-close"><h2><a class="blogs-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2></div>
+            <p class="blogs">{{ post.content|urlize|truncatechars:200 }}<br /><a class="a" href="{% url 'post-detail' post.id %}" style="font-family: 'Charter Bold', sans-serif;">Read more</a></p>
+            {% if post.image %}
+                    <img class="imagedisplay-title" src="{{ post.image.url }}" alt="{{ post.name }} image" />
+            {% endif %}
+            {% if post.location %}
+                <p class="blogs-location">Post was made in <a class="a-location" target="_blank" href="https://www.google.com/maps/search/{{ post.location }}">{{ post.location|get_city_string }}</a>.&nbsp;&nbsp;&nbsp;<i class="fas fa-map-pin"></i></p>
+            {% endif %}
+            {% if post.author == user %}
+                <a href="{% url 'post-changelog' post.id %}" class="a-blue">See changelog&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i></a>
+            {% endif %}
+    </article>
+{% endfor %}
+<hr style="border: solid 1px rgb(154, 154, 154);"/>
+{% for post in travel %}
+    {% if forloop.first %}
+        <h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">#{{ post.Add_post_to_group }}</h1>
+    {% endif %}
+    <article class="blog-container">
+        <a href="{% url 'user-posts' post.author.username %}"><img class="author" src="{{ post.author.profile.image.url }}"></a>
+                <a class="author-title" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                <small class="author-date">Posted on {{ post.date_posted|date:"F d, Y" }}</small>
+            <div class="blogs-title-close"><h2><a class="blogs-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2></div>
+            <p class="blogs">{{ post.content|urlize|truncatechars:200 }}<br /><a class="a" href="{% url 'post-detail' post.id %}" style="font-family: 'Charter Bold', sans-serif;">Read more</a></p>
+            {% if post.image %}
+                    <img class="imagedisplay-title" src="{{ post.image.url }}" alt="{{ post.name }} image" />
+            {% endif %}
+            {% if post.location %}
+                <p class="blogs-location">Post was made in <a class="a-location" target="_blank" href="https://www.google.com/maps/search/{{ post.location }}">{{ post.location|get_city_string }}</a>.&nbsp;&nbsp;&nbsp;<i class="fas fa-map-pin"></i></p>
+            {% endif %}
+            {% if post.author == user %}
+                <a href="{% url 'post-changelog' post.id %}" class="a-blue">See changelog&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i></a>
+            {% endif %}
+    </article>
+{% endfor %}
+{% endblock content %}

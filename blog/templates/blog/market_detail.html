@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load app_filters %}
+{% block content %}
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:15px;color:#888;">Browse > Marketplace Details</h1>
+                    {% if object.author == user %}
+                        <div class="mt-3">
+                            <a class="button-update" href="{% url 'market-update' object.id %}">Update</a>
+                            <a class="button-delete" href="{% url 'market-delete' object.id %}">Delete</a>
+                        </div>
+                    {% endif %}
+        
+        <div class="blog-container-previews">
+            <h1 class="id_enter_title" style="position: relative;font-family: 'Open Sans', sans-serif;font-size:24px;color:rgb(154, 154, 154);margin-top:-25px;margin-bottom: -35px;">{{ object.enter_title }}</h1>
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-weight:900;font-size:14px;color:rgb(255, 255, 255);margin-bottom: -35px;">{{ object.enter_condition }}</h1>
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:18px;color:rgb(255, 255, 255);margin-bottom: -80px;">$<span class="id_enter_price">{{ object.enter_price }}</span></h1>
+            {% if object.Top_image_of_product %}
+                    <div class="cutoff-2" style="padding-bottom: 0px;">    
+                        <img src="{{ object.Top_image_of_product.url }}" alt="{{ object.Top_image_of_product }} image" class="img-market" style="transition:0.3s;-webkit-transition:0.3s;-moz-transition:0.3s;-o-transition:0.3s;">
+                    </div>
+            {% endif %}
+
+            
+                <p style="position: relative;font-family: 'Open Sans', sans-serif;font-size:16px;color:rgb(255, 255, 255);margin-bottom: -35px;" class="id_Describe_product">{{ object.Describe_product }}</p>
+            <p style="position: relative;font-family: 'Open Sans', sans-serif;color:rgb(154, 154, 154);"><span class="id_enter_public_address">{{ object.enter_public_address }}</span>&nbsp;&nbsp;•&nbsp;&nbsp;{{ object.date_posted }}</p>
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-weight:900;font-size:14px;color:rgb(255, 255, 255);margin-top: -35px;margin-bottom: -15px;">{{ object.enter_item_type }}</h1>
+        </div>
+                
+{% endblock content %}

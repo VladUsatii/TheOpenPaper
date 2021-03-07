@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Favicon -->
+    <link href="{% static 'blog/productIcon.png' %}" rel="shortcut icon" type="image/png" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Fontawesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+        <title>Product Blog - {{ title }}</title>
+    {% elif user.is_authenticated %}
+      <title>Product Blog - Signed in as {{ user.username }}</title>
+    {% else %}
+        <title>Product Blog</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar-brand">
+          <div class="container">
+            <a href="{% url 'blog-business' %}"><img src="{% static 'blog/productAdsLogo.png' %}" class="logo-nav-onhoverinc"></a>
+                <a class="navbar-item-left" href="{% url 'blog-docs' %}">Latest&nbsp;&nbsp;<i class="fas fa-book"></i></a>
+                {% if user.is_authenticated %}
+                    <img class="ads-userimage" src="{{ user.profile.image.url }}">
+                    <h1 class="ads-username" style="margin-right: -5px;">{{ user.username }}</h1>
+                {% else %}
+                    <a class="navbar-item-right" href="{% url 'login' %}"><button class="btn-login">Login</button></a>
+                    <a class="navbar-item-right" href="{% url 'register' %}"><button class="btn-register">Register</button></a>
+                {% endif %}
+          </div>
+        </nav>
+    </header>
+    <main role="main" class="container-closeup">
+        <div class="row">
+          <div class="col-md">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+    </main>
+    {% block content %}{% endblock %}
+    
+    {% block footer %}{% endblock %}
+    <div style="left:0;width:100%;background-color: rgb(24, 24, 24);padding: 25px;">
+        <div style="position:relative;margin: 0 auto;width:100%;max-width: 750px;display:block;">
+            <h1 style="font-family: 'Philosopher', BlinkMacSystemFont, sans-serif;font-size:32px;color:white;padding-bottom: 5px;">Subscribe to the Product Newsletter.</h1>
+            <h1 style="font-family: 'Charter', BlinkMacSystemFont, sans-serif;font-size:18px;color:rgb(174, 174, 174);padding-bottom: 15px;">Get monthly blog emails on Product's latest discoveries, research, updates, and trends.</h1>
+            <input type="text" name="enter_title" maxlength="300" placeholder="Unsubscribe anytime. No hurt feelings :)" id="id_enter_title" style="font-size:16px;"/>
+            <br />
+            <br />
+            <br />
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;line-height: 26px;">
+                <span style="position: relative;font-family: 'Philosopher', BlinkMacSystemFont, sans-serif;font-size:50px;color:#999;">Site map</span>
+                <img src="{% static 'blog/productLogo.png' %}" style="position:relative;width:100px;-webkit-filter: invert(100%);filter: invert(100%);display: block;">
+                <a href="{% url 'blog-home' %}" class="a" style="font-size:15px;font-weight:600;cursor:pointer;display: block;">Home</a>
+                <a href="{% url 'blog-about' %}" class="a" style="font-size:13px;font-weight:500;cursor:pointer;display: block;">About</a>
+                <a href="{% url 'blog-business' %}" class="a" style="font-size:13px;font-weight:500;cursor:pointer;display: block;">Business</a>
+                <a href="{% url 'blog-careers' %}" class="a" style="font-size:13px;font-weight:500;cursor:pointer;display: block;">Careers</a>
+                <a href="{% url 'blog-legal' %}" class="a" style="font-size:13px;font-weight:500;cursor:pointer;display: block;">Terms</a>
+                <a href="{% url 'blog-adtracking' %}" class="a" style="font-size:13px;font-weight:500;cursor:pointer;display: block;">Privacy Policy</a>
+                <hr style="width:100%;border:solid 1px #444;margin-top: 25px;margin-bottom: 25px;"/>
+                <img src="{% static 'blog/productAdsLogo.png' %}" style="position:relative;width:100px;-webkit-filter: invert(100%);filter: invert(100%);margin-bottom: 5px;display: block;">
+                <a href="{% url 'blog-business' %}" class="a" style="font-size:15px;font-weight:600;cursor:pointer;display: block;">Home</a>
+                <a href="{% url 'blog-pricing' %}" class="a" style="font-size:13px;font-weight:500;cursor:pointer;display: block;">Pricing</a>
+                <hr style="width:100%;border:solid 1px #444;margin-top: 25px;margin-bottom: 25px;"/>
+                <img src="{% static 'blog/productBlogLogo.png' %}" style="position:relative;width:100px;-webkit-filter: invert(100%);filter: invert(100%);margin-bottom: 5px;display: block;">
+                <a href="{% url 'blog-blog' %}" class="a" style="font-size:15px;font-weight:600;cursor:pointer;display: block;">Home</a>
+            </h1>
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 13px;color:#555;line-height: 26px;">Copyright © 2020 The Product Project. Created by Vlad Usatii.</h1>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% block content %}
+<div class="loader">Loading...</div>
+        {% if "https://" in object.Add_a_link %}
+            <a id="one" href="{{ object.Add_a_link }}"></a>
+            <script type="text/javascript">
+                window.location = document.getElementById('one').getAttribute('href');
+            </script>
+        {% else %}
+            <a id="two" href="https://{{ object.Add_a_link }}"></a>
+
+            <script type="text/javascript">
+                window.location = document.getElementById('two').getAttribute('href');
+            </script>
+        {% endif %}
+{% endblock content %}

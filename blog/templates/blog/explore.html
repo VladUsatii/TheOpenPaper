@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="container-header">
+        <h1 style="padding-bottom: 25px;font-family: 'Kievit Serif Bold',sans-serif;color: white;padding-right: 25px;display: inline-block;">Explore</h1>
+    </div>
+    {% for post in posts %}
+        <article class="blog-container">
+            <a href="{% url 'user-posts' post.author.username %}"><img class="author" src="{{ post.author.profile.image.url }}"></a>
+                    <a class="author-title" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+        </article>
+    {% endfor %}
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'+3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+{% endblock content %}
+
+

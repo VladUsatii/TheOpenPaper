@@ -1,0 +1,150 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="blog-container-write p-3">
+        <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend style="position: relative;text-align:center;font-family: 'Open Sans';font-size:18px;font-weight:600;color:white;padding: 5px;padding-bottom:0px;">{% if "post/new" in request.path %}Create new article{% elif "/update" in request.path %}Edit your article{% elif "/changelog" in request.path %}Edit your changelog{% endif %}</legend>
+                <hr style="width:100%;border: 1px solid #333;"/>
+                <label style="margin-bottom: 25px;">
+                    <a class="showtitletext">
+                        <span class="uploadadtxt" tooltip="Heading" flow="up" style="border:none;margin-left:5px;padding-left:15px;padding-right:15px;padding-top:14px;"><i class="fas fa-heading" style="font-size:22px;color:#29aeff;"></i></span>
+                    </a>
+                </label>
+                {% if form.instance.image %}
+                {% else %}
+                <label id="hiddenimgreplace">
+                    {{ form.image }}
+                    <span class="uploadadtxt" id="adimagetxt" tooltip="Thumbnail Image" flow="up" style="border:none;margin-left:5px;padding-left:15px;padding-right:15px;padding-top:14px;"><i class="fas fa-images" style="font-size:22px;color:#ff8a29;"></i></span>
+                </label>
+                {% endif %}
+                <label>
+                    <a class="showlocationtext">
+                        <span class="uploadadtxt" tooltip="Location" flow="up" style="border:none;margin-left:5px;padding-left:15px;padding-right:15px;padding-top:14px;"><i class="fas fa-globe-americas" style="font-size:22px;color:#24DB96;"></i></span>
+                    </a>
+                </label>
+                <label>
+                    <a class="showcategorytext">
+                        <span class="uploadadtxt" tooltip="Group" flow="up" style="border:none;margin-left:5px;padding-left:15px;padding-right:15px;padding-top:14px;"><i class="fas fa-hashtag" style="font-size:22px;color:#ffe024;"></i></span>
+                    </a>
+                </label>
+                <div class="add_title_to_post">{{ form.title }}<br /></div>
+                <br />
+                <div id="hidden_or_not2" style="display: none;">
+                    <div class="cutoff" id="hidden_or_not" style="position:relative;display: none;width:50%;top:50px;margin-bottom: 75px;border: solid 1px white;">
+                        <img id="preview" src="#" class="img-market"/>
+                    </div>
+                    <h1 style="position: relative;padding-left:25px;padding-bottom:25px;font-family: 'Charter', sans-serif;font-size:15px;color:white;font-weight: 600;">Product does not support videos or multiple photos in its alpha.</h1>
+                </div>
+                {% if "changelog" in request.path %}
+                {{ form.changelog }}
+                {% endif %}
+                {{ form.content }}
+                <div id="countWord" style="display: inline;font-family: 'Charter', sans-serif;"><br /><b>Words</b> 0</div>&nbsp;&nbsp;&nbsp;<div id="countLetters" style="display: inline;font-family: 'Charter', sans-serif;"><b>Letters</b> 0</div>
+                <div class="add_location_to_post"><br />{{ form.location }}</div>
+                <div class="add_category_to_post"><br />{{ form.Add_post_to_group }}</div>
+            </fieldset>
+            <div class="form-group">
+                <button class="global-btn-3" type="submit">Submit</button>
+            </div>
+            <label>
+                <a class="showfaqtext">
+                    <span class="uploadadtxt" tooltip="What's this?" flow="up2" style="border:none;margin-top:2px;margin-left:5px;padding-left:15px;padding-right:15px;padding-top:14px;float:right;"><i class="fas fa-question" style="font-size:22px;color:white;"></i></span>
+                </a>
+            </label>
+            <p class="faqtext">
+                Product v0.01 supports post customization with the following features:
+                <ul class="faqtext" style="font-size:17px;color:rgb(205, 205, 205);font-family:'Charter', sans-serif;">
+                    <li>Customize whether you want a title or not</li>
+                    <li>Choose an optional thumbnail image</li>
+                    <li>Optionally add your location or the post's location</li>
+                    <li>You can also add your post to one group</li>
+                </ul>
+            </p>
+
+        </form>
+    </div>
+
+    <script>
+
+        function count_word( val ){
+            var wom = val.match(/\S+/g);
+            return {
+                words : wom ? wom.length : 0
+            };
+        }
+        var textContent = document.getElementById("id_content");
+        var showWordCount   = document.getElementById("countWord");
+        textContent.addEventListener("input", function(){
+        var v = count_word( this.value );
+        showWordCount.innerHTML = (
+            "<br><b>Words</b> "+ v.words
+        );
+        }, false);
+
+        var a = document.getElementById("id_content");
+            a.addEventListener("keyup",function(){
+                document.getElementById("countLetters").innerHTML = "<b>Letters</b> " + a.value.length;
+            })
+
+        document.getElementById("id_title").setAttribute("placeholder", "Add a header to your post..");
+        document.getElementById("id_content").setAttribute("placeholder", "Start writing that amazing post..");
+        document.getElementById("id_location").setAttribute("placeholder", "Add a place to your post..");
+        document.getElementById("id_Add_post_to_group").setAttribute("placeholder", "Add your post to one group..");
+        document.getElementById("id_changelog").setAttribute("placeholder", "Enter your updates or private notes..");
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('button[type="submit"]').attr('disabled', true);
+            $('button[type="text"],textarea').on('keyup',function() {
+                var textarea_value = $("textarea").val();
+                
+                if(textarea_value != '') {
+                    $('button[type="submit"]').attr('disabled', false);
+                } else {
+                    $('button[type="submit"]').attr('disabled', true);
+                }
+            });
+        });
+
+        $('.showtitletext').click(function() {
+            $('.add_title_to_post').fadeToggle();
+        });
+
+        $('.showlocationtext').click(function() {
+            $('.add_location_to_post').fadeToggle();
+        });
+
+        $('.showcategorytext').click(function() {
+            $('.add_category_to_post').fadeToggle();
+        });
+
+        $('.showfaqtext').click(function() {
+            $('.faqtext').fadeToggle();
+        });
+
+
+        function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+            $('#preview').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+            $("#hidden_or_not").fadeToggle();
+            $("#hidden_or_not2").fadeToggle();
+            $('#hiddenimgreplace').css("display", "none");
+        } else {
+            $("#hidden_or_not").fadeToggle();
+        }
+        }
+
+        $("#id_image").change(function() {
+            readURL(this);
+        });
+    </script>
+{% endblock content %}

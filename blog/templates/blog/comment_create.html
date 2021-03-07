@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% block content %}
+        <legend>Share your comment.</legend>
+        <p style="font-family: 'Open Sans', sans-serif;font-size:18px;color:#888;line-height: 26px;">The world needs your opinion. When posting, please make sure to follow our guidelines and be nice.</p>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <br />
+            <button class="global-btn-2">Publish comment</button>
+        </form>
+{% endblock content %}

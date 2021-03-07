@@ -1,0 +1,196 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% load static %} <!-- Don't know why this has to be loaded? -->
+{% block content %}
+
+<div class="right-side-bar" style="width: 25%;">
+<h1 class="author-date-detail" style="text-align:left;font-weight:800;color:white;font-size:23px;font-family:'Kievit Serif', sans-serif;white-space: pre-wrap;word-wrap: break-all;padding-bottom: 0px;padding-left: 15px;">People You May Know</h1>
+        <hr style="margin-left:15px;border: solid 1px rgb(167, 167, 167);" />
+    <div class="right-side-blog-view-2" style="height:100%;">
+            {% for profile in profiles %}
+                <div class="people-box" style="margin: 0 auto;display: block;">
+                    <img src="{{ profile.image.url }}" class="detail-view-image">
+                    <h1 class="trending-box-title" style="position:relative;top:15px;text-align:center;font-size:20px;font-weight: 900;color:rgb(255, 255, 255);display: block;">{{ profile.user }}{% if post.author.profile.verified %}&nbsp;&nbsp;<i class="fas fa-check-circle" style="color:#777;"></i>{% endif %}</h1>
+                    <br />
+                    <a href="{% url 'user-posts' profile.user.username %}"><button class="blue-btn">Read&nbsp;&nbsp;<i class="far fa-newspaper"></i></button></a>
+                </div>
+            </a>
+            <br />
+            {% endfor %}
+    </div>
+</div>
+
+<div class="contain-search-users">
+    <i class="fas fa-binoculars" id="fa-binoculars"></i>
+<form method='GET' action="." class="form-search">
+    <input type="text" name="q" class="search-users" id="search-users" placeholder="Search users" />
+    <input class="search-users-btn" type="submit" value=""/>
+</form>
+</div>
+    {% if query %}
+    <div class="search-results" id="search-results">
+        <p style="font-family: 'Open Sans', sans-serif;font-size: 14px;padding: 5px;padding-bottom:10px;color: white;margin-bottom: 0px;font-weight: 700;">Search users&nbsp;&nbsp;<i class="fas fa-mouse"></i>&nbsp;&nbsp;&nbsp;<i style="color:#292929;font-size:16px;vertical-align: middle;font-weight: 500;">Users containing your query.</i></p>
+        {% if results %}
+        {% for profile in ads %}
+        {% if forloop.first %}
+            <a href="{% url 'user-posts' profile.user.username %}" class="a-search">
+                <p style="font-size: 16px;color: white;margin-bottom: 0px;font-family: 'Open Sans', sans-serif;"><b style="font-family: 'Open Sans', sans-serif;font-weight: 700;color:rgb(79, 79, 79);">Ad</b>&nbsp;&nbsp;&nbsp;{{ profile.user.username }}</p>
+            </a>
+        {% endif %}
+        {% endfor %}
+            {% for item in results %}
+                <a href="{% url 'user-posts' item.username %}" class="a-search">
+                    <p style="font-family: 'Open Sans', sans-serif;font-size: 16px;color: white;margin-bottom: 0px;">{{ item|escape }}</p>
+                </a>
+            {% endfor %}
+        {% else %}
+        <p style="font-size: 16px;color: white;margin-bottom: 0px;padding: 5px;">No user found.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+
+<h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">Find People</h1>
+        <h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">Rising Talent</h1>
+        <h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">A curated list for you.</h1>
+            {% for profile in users %}
+            <a href="{% url 'user-posts' profile.user.username %}" style="display: block;">
+                <div class="user-warning">
+                        <img class="img-user-warning" src="{{ profile.image.url }}">
+                    <div class="contain-user-warning">
+                        <h1 class="h1-user-warning">{{ profile.user.username }}{% if profile.verified %}&nbsp;<i class="fas fa-check-circle" style="color:#777;"></i>{% endif %}</h1>
+                        {% if profile.Add_current_employer and not profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Works at {{ profile.Add_current_employer|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_current_title  and not profile.Add_current_employer%}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;{{ profile.Add_current_title|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_current_employer and profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Works at {{ profile.Add_current_employer|truncatechars:50 }} as a {{ profile.Add_current_title|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_an_education_credential and not profile.Add_current_employer and not profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;&nbsp;Studied at {{ profile.Add_an_education_credential|truncatechars:50 }}.</h3>
+                        {% else %}
+                            <h3 class="h3-user-warning h3-user-warning-2"><i class="fas fa-people-arrows"></i>&nbsp;&nbsp;&nbsp;{{ profile.user.email|truncatechars:100 }}</h3> 
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+
+            <h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">Trending</h1>
+        <h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">Product's most trusted writers, hand-chosen by our developer team.</h1>
+            {% for profile in trending %}
+            <a href="{% url 'user-posts' profile.user.username %}" style="display: block;">
+                <div class="user-warning">
+                        <img class="img-user-warning" src="{{ profile.image.url }}">
+                    <div class="contain-user-warning">
+                        <h1 class="h1-user-warning">{{ profile.user.username }}{% if profile.verified %}&nbsp;<i class="fas fa-check-circle" style="color:#777;"></i>{% endif %}</h1>
+                        {% if profile.Add_current_employer and not profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Works at {{ profile.Add_current_employer|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_current_title  and not profile.Add_current_employer%}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;{{ profile.Add_current_title|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_current_employer and profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Works at {{ profile.Add_current_employer|truncatechars:50 }} as a {{ profile.Add_current_title|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_an_education_credential and not profile.Add_current_employer and not profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;&nbsp;Studied at {{ profile.Add_an_education_credential|truncatechars:50 }}.</h3>
+                        {% else %}
+                            <h3 class="h3-user-warning h3-user-warning-2"><i class="fas fa-people-arrows"></i>&nbsp;&nbsp;&nbsp;{{ profile.user.email|truncatechars:100 }}</h3> 
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+            
+            <h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">People You May Know</h1>
+        <h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">These people match your profile.</h1>
+            {% if user.is_authenticated %}
+            {% for profile in trending %}
+            <a href="{% url 'user-posts' profile.user.username %}" style="display: block;">
+                <div class="user-warning">
+                        <img class="img-user-warning" src="{{ profile.image.url }}">
+                    <div class="contain-user-warning">
+                        <h1 class="h1-user-warning">{{ profile.user.username }}{% if profile.verified %}&nbsp;<i class="fas fa-check-circle" style="color:#777;"></i>{% endif %}</h1>
+                        {% if profile.Add_current_employer and not profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Works at {{ profile.Add_current_employer|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_current_title  and not profile.Add_current_employer%}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;{{ profile.Add_current_title|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_current_employer and profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-briefcase"></i>&nbsp;&nbsp;&nbsp;Works at {{ profile.Add_current_employer|truncatechars:50 }} as a {{ profile.Add_current_title|truncatechars:50 }}.</h3>
+                        {% elif profile.Add_an_education_credential and not profile.Add_current_employer and not profile.Add_current_title %}
+                            <h3 class="h3-user-warning"><i class="fas fa-graduation-cap"></i>&nbsp;&nbsp;&nbsp;Studied at {{ profile.Add_an_education_credential|truncatechars:50 }}.</h3>
+                        {% else %}
+                            <h3 class="h3-user-warning h3-user-warning-2"><i class="fas fa-people-arrows"></i>&nbsp;&nbsp;&nbsp;{{ profile.user.email|truncatechars:100 }}</h3> 
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <div class="blog-container">
+                <div class="smushimages">
+                    {% for profile in 3Gen %}
+                        <img class="curated-image-over-1" src="{{ profile.image.url }}">
+                    {% endfor %}
+                </div>
+                    <h1 class="curated-notloggedin">Hundreds of popular authors await you.</h1>
+                    <h2 class="curated-notloggedin-sub">Create an account or log in to view a personalized list of people to follow.</h2>
+        
+                    <div class="contain-listing-btns-curated">
+                        <a href="{% url 'register' %}" style="text-decoration:none;color:inherit;"><button class="create-listing-btn">Create an account</button></a>
+                        <a href="{% url 'login' %}" style="text-decoration:none;color:inherit;"><button class="edit-listing-btn">Log in</button></a>
+                    </div>
+            </div>
+            {% endif %}
+
+    {% if user.is_authenticated %}
+    {% else %}
+            <div class="sign-up-log-in">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+            <div class="sign-up-log-in-2">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+
+            <div class="sign-up-log-in-mobile">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+    {% endif %}
+
+    <script>
+        var input = document.getElementById('search-users'),
+            div = document.getElementById('fa-binoculars');
+
+            input.addEventListener('focus', function() {
+            div.classList.add('focused');
+            }, false);
+
+            input.addEventListener('blur', function() {
+            div.classList.remove('focused');
+            }, false);
+
+
+        var input2 = document.getElementById('search-users'),
+            div2 = document.getElementById('search-results');
+
+            if (window.location.href=="http://localhost:8000/people/") {
+                input2.addEventListener('focus', function() {
+                    div2.style.display = "block";
+                }, false);
+
+                input2.addEventListener('blur', function() {
+                    div2.style.display = "none";
+                }, false);
+            } else {
+                div2.style.display = "block";
+            }
+    </script>
+{% endblock content %}
+
+

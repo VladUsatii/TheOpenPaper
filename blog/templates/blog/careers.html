@@ -1,0 +1,72 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<img style="-webkit-filter: invert(100%);filter: invert(100%);width: 75%;position:relative;margin: 0 auto;display:block;" src="../static/blog/worldView.png">
+<h1 style="position: relative;font-family: 'Charter Bold', sans-serif;font-size: 54px;color:white;">Create something new.</h1>
+<h1 style="position: relative;font-family: 'Charter', sans-serif; font-size: 28px;color:white;">Product is on a mission to bring real, non-biased works to the entire world.</h1>
+    <div class="buttons-globals">
+        <a style="text-decoration:none;color:inherit;" href="/"><button class="global-btn-3" disabled>See open positions</button></a>
+        <a style="text-decoration:none;color:inherit;" href="{% url 'admin:index' %}"><button class="global-btn-3">Go to <b>Admin</b></button></a>
+    </div>
+    <hr style="border: solid 1px rgb(58, 58, 58);width: 75%;" />
+
+    <h1 style="position: relative;text-align: center;padding-top:25px;padding-bottom: 25px;color:white;font-family: 'Charter Bold', sans-serif;font-size: 32px;">Meet the Team</h1>
+    <div class="careers-contain-contain">
+        <div class="careers-contain">
+            <img src="../static/blog/icon.jpg" style="position: relative;margin: 0 auto;display: block; width: 75px; height: 75px;border-radius: 50%;border: solid 3px white;">
+                <h1 style="position: relative;text-align:center;color:white;font-family: 'Open Sans', sans-serif;font-size: 22px;padding-top: 10px;">Vlad <i class="fas fa-check-circle"></i></h1>
+                    <p style="position: relative;color:white;font-family: 'Charter', sans-serif;font-size: 15px;padding-top: 10px;line-height: 32px;">Vlad is our founder and CEO/CTO. On his profile, he currently writes about <b>Product Development</b>. </p>
+                <h2 style="position: relative;color:white;font-family: 'Open Sans', sans-serif;font-size: 18px;padding-top: 10px;">Notable Works</h2>
+                <a href="/post/52/">
+                    <div class="notableworks">
+                        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;padding-top: 22px;padding-bottom: 15px;padding-left: 10px;padding-right: 10px;white-space: nowrap;">Product Launch v0.01&nbsp;&nbsp;&nbsp;<i class="fas fa-eye"></i></h1>
+                    </div>
+                </a>
+        </div>
+        <!-- <div class="careers-contain">
+            <img src="../static/blog/icon.jpg" style="position: relative;margin: 0 auto;display: block; width: 75px; height: 75px;border-radius: 50%;border: solid 3px white;">
+                <h1 style="position: relative;text-align:center;color:white;font-family: 'Open Sans', sans-serif;font-size: 22px;padding-top: 10px;">Other Person <i class="fas fa-check-circle"></i></h1>
+                    <p style="position: relative;color:white;font-family: 'Charter', sans-serif;font-size: 15px;padding-top: 10px;line-height: 32px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                <h2 style="position: relative;color:white;font-family: 'Open Sans', sans-serif;font-size: 18px;padding-top: 10px;">Notable Works</h2>
+                <a href="/post/35">
+                    <div class="notableworks">
+                        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;padding-top: 22px;padding-bottom: 15px;padding-left: 10px;padding-right: 10px;white-space: nowrap;">null field&nbsp;&nbsp;&nbsp;<i class="fas fa-eye"></i></h1>
+                    </div>
+                </a>
+        </div> -->
+    </div>
+    <hr style="border: solid 1px rgb(58, 58, 58);width: 75%;margin-top: 50px;" />
+
+    <h1 style="position: relative;text-align: center;padding-top:25px;padding-bottom: 25px;color:white;font-family: 'Charter Bold', sans-serif;font-size: 32px;">We have something great for everyone.</h1>
+    <p>Start posting on Product today to learn how to apply for a role in the future of social media. In the future, we will add all of our open positions here.</p>
+        <!-- <a href="/" style="color: inherit;text-decoration:none;">
+            <div class="box-for-careers">
+            <h1 style="position: relative;text-align:center;font-family: 'Charter', sans-serif;font-size: 24px;color: white;">Design</h1>
+            <h1 style="position: relative;text-align:center;font-family: 'Open Sans', sans-serif;font-size: 15px;color: rgb(0, 136, 255);">15 open positions</h1>
+        </div>
+    </a>
+    <a href="/" style="color: inherit;text-decoration:none;">
+        <div class="box-for-careers">
+            <h1 style="position: relative;text-align:center;font-family: 'Charter', sans-serif;font-size: 24px;color: white;">Development</h1>
+            <h1 style="position: relative;text-align:center;font-family: 'Open Sans', sans-serif;font-size: 15px;color: rgb(0, 136, 255);">10 open positions</h1>
+        </div>
+    </a>
+    <a href="/" style="color: inherit;text-decoration:none;">
+        <div class="box-for-careers">
+            <h1 style="position: relative;text-align:center;font-family: 'Charter', sans-serif;font-size: 24px;color: white;">Leadership</h1>
+            <h1 style="position: relative;text-align:center;font-family: 'Open Sans', sans-serif;font-size: 15px;color: rgb(0, 136, 255);">4 open positions</h1>
+        </div>
+    </a>
+    <a href="/" style="color: inherit;text-decoration:none;">
+        <div class="box-for-careers">
+            <h1 style="position: relative;text-align:center;font-family: 'Charter', sans-serif;font-size: 24px;color: white;">Marketing</h1>
+            <h1 style="position: relative;text-align:center;font-family: 'Open Sans', sans-serif;font-size: 15px;color: rgb(0, 136, 255);">3 open positions</h1>
+        </div>
+    </a> -->
+
+    <br />
+<br />
+<br />
+<br />
+
+
+{% endblock content %}

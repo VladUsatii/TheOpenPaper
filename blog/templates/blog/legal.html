@@ -1,0 +1,70 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% load static %} <!-- Don't know why this has to be loaded? -->
+{% block content %}
+    <h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">Legal</h1>
+    <h1 style="font-family: 'Kievit Serif',sans-serif;font-size:24px;color: rgb(191, 191, 191);padding-right: 25px;display: block;">Choose a category from the top to read info on the bottom.</h1>
+    <br />
+    <h1 style="font-family: 'Charter Bold',sans-serif;font-size:28px;margin: 5px;color: rgb(255, 255, 255);">Categories</h1>
+    <h1 style="font-family: 'Open Sans',sans-serif;font-size:16px;margin: 5px;color: rgb(174, 174, 174);">We encourage all registered or non-registered users to read and digest the rules that our site is governed on. We made each 'reading area' black and white to enhance visibility of lettering.
+        <br /><br /><b style="font-family: 'Open Sans', sans-serif;">Problems with reading this text? Please visit External Resources and download a physical copy.</b></h1>
+    <hr style="border: 1px rgb(125, 125, 125) solid;width: 100%;"/>
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'ToS')" id="defaultOpen">Terms of Service</button>
+        <button class="tablinks" onclick="openCity(event, 'Privacy')">Privacy</button>
+        <button class="tablinks" onclick="openCity(event, 'Cookies')">Cookies</button>
+        <button class="tablinks" onclick="openCity(event, 'YourData')">Your Data</button>
+        <button class="tablinks" onclick="openCity(event, 'ExternalResources')">External Resources</button>
+      </div>
+      
+      <div id="ToS" class="tabcontent">
+        <!-- add from notes when finished -->
+        <h3 class="heading-legal">Terms of Service</h3>
+        <h1 class="section-heading-legal">Coming soon.</h1>
+        </div>
+      
+      <div id="Privacy" class="tabcontent">
+        <!-- add from notes when finished -->
+        <h3 class="heading-legal">Privacy Basics</h3>
+        <p>We are moving the Terms of Service here very soon.</p> 
+        
+      </div>
+      
+      <div id="Cookies" class="tabcontent">
+        <!-- add from notes when finished -->
+        <h3 class="heading-legal">Cookies Policy</h3>
+        <p>We are moving the Terms of Service here very soon.</p>
+      </div>
+
+      <div id="YourData" class="tabcontent">
+        <!-- add from notes when finished -->
+        <h3 class="heading-legal">Your Data on Product</h3>
+        <p>We are moving the Terms of Service here very soon.</p>
+      </div>
+      
+      <div id="ExternalResources" class="tabcontent">
+        <!-- add from notes when finished -->
+        <h3 class="heading-legal">External Resources</h3>
+        <p>We are moving the Terms of Service here very soon.</p>
+      </div>
+
+    <script>
+        function openCity(evt, cityName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(cityName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        
+        document.getElementById("defaultOpen").click();
+    </script>
+{% endblock content %}
+
+

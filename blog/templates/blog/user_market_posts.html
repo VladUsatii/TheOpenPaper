@@ -1,0 +1,46 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% block content %}
+    
+        {% for market in markets %}
+            <article class="blog-container">
+                <a href="{% url 'user-posts' post.author.username %}"><img class="author" src="{{ post.author.profile.image.url }}"></a>
+                        <a class="author-title" href="{% url 'user-posts' post.author.username %}">{{ market.author }}</a>
+                        <small class="author-date">Posted on {{ market.date_posted|date:"F d, Y" }}</small>
+                    <div class="blogs-title-close"><h2><a class="blogs-title" href="{% url 'post-detail' post.id %}">{{ market.title }}</a></h2></div>
+                    <p class="blogs">{{ market.content|urlize|truncatechars:200 }}<br /><a class="a" href="{% url 'post-detail' post.id %}" style="font-family: 'Charter Bold', sans-serif;">Read more</a></p>
+                    {% if market.image %}
+                            <img class="imagedisplay-title" src="{{ post.image.url }}" alt="{{ post.name }} image" />
+                    {% endif %}
+                    {% if market.location %}
+                        <p class="blogs-location">Post was made in <a class="a-location" target="_blank" href="https://www.google.com/maps/search/{{ post.location }}">{{ post.location|get_city_string }}</a>.&nbsp;&nbsp;&nbsp;<i class="fas fa-map-pin"></i></p>
+                    {% endif %}
+                    {% if market.author == user %}
+                        <a href="{% url 'post-changelog' post.id %}" class="a-blue">See changelog&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i></a>
+                    {% endif %}
+                    <h2 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:#888;display: block;padding-left: 25px;padding-bottom: 25px;padding-right: 25px;">{{ post.blog_views }} <i class="far fa-eye"></i>&nbsp;&nbsp;•&nbsp;&nbsp;{{ post.total_likes }} <i class="fas fa-heart"></i></h2>
+            </article>
+        {% endfor %}
+    
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'+3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+{% endblock content %}

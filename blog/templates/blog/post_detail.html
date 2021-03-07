@@ -1,0 +1,130 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% block content %}
+
+    <div class="right-side-bar">
+        <h1 style="position: relative;font-family: 'Kievit Serif', sans-serif;font-size: 28px;color:white;">Comments</h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_comment' post.pk %}"><button class="btn-addcomment">Add comment</button></a>
+            {% else %}
+                <a href="{% url 'register' %}"><button class="btn-addcomment">Register or log in to comment</button></a>
+            {% endif %}
+            {% if not post.comments.all %}
+            <div class="blog-container" style="top:5px;">
+                <p style="font-size: 15px;text-align: center;padding-left:25px;padding-right: 25px;padding-top: 10%;padding-bottom:8%;">No comments yet</p>
+            </div>
+            {% else %}
+            {% for comment in post.comments.all %}
+            {% if forloop.first %}
+            <div class="organize-comments">
+                <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:14px;color:white;text-align: left;">{{ comment.author }} - {{ comment.date_posted }}&nbsp;&nbsp;&nbsp;{% if comment.author == user %}<a href="{% url 'comment-delete' comment.id %}"><button class="btn-linker" style="float:right;margin:3px;"><i class="fas fa-trash-alt"></i></button></a>{% endif %}</h1>
+                <p>{{ comment.write_comment }}</p>
+            </div>
+            {% else%}
+                {% if '@' in comment.write_comment %}
+                <div class="organize-comments" style="left:10%;width:90%;display:block;border-left: solid 1px #777;display:block;">
+                    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:14px;color:white;text-align: left;">{{ comment.author }} - {{ comment.date_posted }}&nbsp;&nbsp;&nbsp;{% if comment.author == user %}<a href="{% url 'comment-delete' comment.id %}"><button class="btn-linker" style="float:right;margin:3px;"><i class="fas fa-trash-alt"></i></button></a>{% endif %}</h1>
+                    <p>{{ comment.write_comment }}</p>
+                </div>
+                {% else %}
+                    <div class="organize-comments">
+                        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:14px;color:white;text-align: left;">{{ comment.author }} - {{ comment.date_posted }}&nbsp;&nbsp;&nbsp;{% if comment.author == user %}<a href="{% url 'comment-delete' comment.id %}"><button class="btn-linker" style="float:right;margin:3px;"><i class="fas fa-trash-alt"></i></button></a>{% endif %}</h1>
+                        <p>{{ comment.write_comment }}</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+    </div>
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:15px;color:#888;">Browse > Post Details</h1>
+                    {% if object.author == user %}
+                        <div class="mt-3">
+                            <a class="button-update" href="{% url 'post-update' object.id %}">Update</a>
+                            <a class="button-delete" href="{% url 'post-delete' object.id %}">Delete</a>
+                        </div>
+                    {% endif %}
+        <article class="blog-container-2 p-3">
+        {% if post.Add_post_to_group %}
+            <mark style="background-color:#2c2c2c;font-weight:600;color:rgb(159, 159, 159);padding-left:20px;padding-right:20px;padding-bottom:8px;padding-top:5px;border-radius:5px;">{{ post.Add_post_to_group }}</mark>
+        {% endif %}
+            <div class="blogs-desc" style="margin-top:25px;">
+                    {% if object.author == user %}
+                        <div class="blue-circle-read"></div>
+                        <h1 class="blue-circle-read-text">Make sure this post follows <a class="a" href="#">guidelines</a>.</h1>
+                    {% else %}
+                        <div class="green-circle-read"></div>
+                        <h1 class="green-circle-read-text">Read this post</h1>
+                    {% endif %}
+                    
+                <h2 class="article-title" style="margin-bottom: 0px;">{{ object.title }}</h2>
+                <small class="author-date-detail" style="text-align: left;font-size:14px;padding-bottom:0px;">Last edited on {{ object.date_posted|date:"F d, Y" }}</small>
+                <img class="author" style="margin-left:0px;margin-bottom: 25px;" src="{{ object.author.profile.image.url }}"><a class="author-title" style="margin-left:15px;margin-bottom: 25px;" href="{% url 'user-posts' object.author.username %}">{{ object.author }}{% if post.author.profile.verified %}&nbsp;&nbsp;<i class="fas fa-check-circle" style="color:#777;"></i>{% endif %}</a>
+                {% if object.author != user %}&nbsp;&nbsp;&nbsp;<button class="global-btn-4" style="font-size:15px;padding: 0px 15px;">Donate&nbsp;&nbsp;&nbsp;<i class="fas fa-money-bill-wave"></i></button>{% endif %}
+                {% if object.image %}
+                    <img class="imagedisplay-title" src="{{ object.image.url }}" alt="{{ object.name }} image" />
+                {% endif %}
+                {% if object.content|length > 200 and not object.content|length < 200 %}
+                {{ object.content|urlize|linebreaks }}
+                {% else %}
+                <p style="font-size:32px;line-height:48px;">{{ object.content }}</p>
+                {% endif %}
+            </div>
+            {% if post.location %}
+                    <p class="blogs-location-desc">Post was made in <a class="a-location" target="_blank" href="https://www.google.com/maps/search/{{ post.location }}">{{ post.location|get_city_string }}</a>.&nbsp;&nbsp;&nbsp;<i class="fas fa-map-pin"></i></p>
+            {% endif %}
+                {% if object.author == user %}
+                    <a href="{% url 'post-changelog' post.id %}" class="a-blue-desc">See changelog&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i></a>
+                {% endif %}
+            <h2 style="position: relative;color:#888;font-family: 'Open Sans', sans-serif;font-size:18px;font-weight: 300;">{{ object.blog_views }} <i class="far fa-eye"></i></h2>
+            <br />
+            {% if user.is_authenticated %}
+            <form action="{% url 'like-post' post.pk %}" method="POST">
+                {% csrf_token %}
+                {% if liked %}
+                    <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm" style="font-size:18px;color:rgb(255, 95, 95) !important;"><i class="fas fa-heart"></i> • {{ total_likes }}</button>
+                {% else %}
+                    <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm" style="font-size:18px;"><i class="fas fa-heart"></i> • {{ total_likes }}</button>
+                {% endif %}
+            </form>
+            {% else %}
+                <a href="{% url 'login' %}"><button class="btn btn-primary btn-sm">Login to like</button></a>
+            {% endif %}
+            <br />
+            <br />
+            <h1 style="position: relative;font-family: 'Kievit Serif', sans-serif;font-size: 28px;color:white;">Read next&nbsp;&nbsp;<a tooltip="Based on your latest reads" flow="right" style="font-size:16px;vertical-align: top;"><i style="font-size:16px;vertical-align: middle;" class="fas fa-question-circle"></i></a></h1>
+                <div class="posts-next">
+                    {% for post in recommendations %}
+                        <a href="{% url 'post-detail' post.id %}" style="text-decoration:none;color:inherit;">
+                            <button class="trending-box" style="text-align: left;left:0;">
+                                <img src="{{ post.author.profile.image.url }}" class="trending-box-author">
+                                <h1 class="trending-box-title" style="font-weight: 900;color:rgb(181, 181, 181);">{{ post.author|truncatechars:32 }}&nbsp;&nbsp;&nbsp;</h1>
+                                {% if post.title %}<h1 class="trending-box-title">{{ post.title|truncatechars:32 }}</h1>{% else %}<h1 class="trending-box-title">{{ post.content|truncatechars:32 }}</h1>{% endif %}
+                                <p class="trending-box-views">{{ post.blog_views|cool_num }} <i class="far fa-eye"></i></p>
+                            </button>
+                        </a>
+                    {% endfor %}
+                </div>
+
+            <br />
+            <br />
+            <h1 id="comment-section" style="position: relative;font-family: 'Kievit Serif', sans-serif;font-size: 28px;color:white;">Comments</h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_comment' post.pk %}"><button class="btn-addcomment">Add comment</button></a>
+            {% else %}
+                <a href="{% url 'register' %}"><button class="btn-addcomment">Register or log in to comment</button></a>
+            {% endif %}
+            {% if not post.comments.all %}
+            <div class="blog-container" style="top:5px;">
+                <p style="font-size: 15px;text-align: center;padding-left:25px;padding-right: 25px;padding-top: 10%;padding-bottom:8%;">No comments yet</p>
+            </div>
+            {% else %}
+                {% for comment in post.comments.all %}
+                <div class="organize-comments">
+                    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:14px;color:white;text-align: left;">{{ comment.author }} - {{ comment.date_posted }}&nbsp;&nbsp;&nbsp;{% if comment.author == user %}<a href="{% url 'comment-delete' comment.id %}"><button class="btn-linker" style="float:right;margin:3px;"><i class="fas fa-trash-alt"></i></button></a>{% endif %}</h1>
+                    <p>{{ comment.write_comment }}</p>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </article>
+            
+{% endblock content %}

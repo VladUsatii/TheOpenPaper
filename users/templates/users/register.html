@@ -1,0 +1,58 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    label[for="id_username"] {
+        display: none;
+    }
+    label[for="id_email"] {
+        display: none;
+    }
+    label[for="id_password1"] {
+        display: none;
+    }
+    label[for="id_password2"] {
+        display: none;
+    }
+
+    #hint_id_username, #hint_id_password1, #hint_id_password2 {
+        margin-top: 15px;
+    }
+</style>
+    <div class="blog-container p-3">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend style="line-height: 42px;margin-bottom: -25px;font-family: 'Philosopher', sans-serif;" class="border-bottom mb-4">Create a free account.<br /><span style="font-size: 18px;line-height: 28px;display: inline-block;">Access millions of works at your fingertips.</span></legend>
+                {{ form|crispy }}
+            </fieldset>
+            <h2 style="position: relative;font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';font-size:14px;color:#777;padding-bottom: 15px;line-height: 22px;">By signing up, you agree to our Terms of Service and the Unbiased Policy.</h2>
+            <div class="form-group">
+                <button class="global-btn-2" type="submit">Sign Up</button>
+            </div>
+        </form>
+        <hr style="border:1px solid #666;"/>
+            <small class="text-muted">
+                Already have an account? <a class="ml-2" href="{% url 'login' %}">Log in</a>
+            </small>
+    </div>
+
+    <div class="blog-container p-3 mt-3">
+                <legend style="line-height: 42px;margin-bottom: -25px;" class="border-bottom mb-4">For businesses.<br /><span style="font-size: 18px;line-height: 28px;display: inline-block;">Create and display ads in several different layouts. From promoting user profiles, to promoting a service or product via ad posts, we have something for all teams.</span></legend>
+        <a href="{% url 'blog-business' %}"><button class="global-btn-3">View our business page</button></a>
+    </div>
+
+    <div class="blog-container-blue p-3 mt-3">
+            <legend style="line-height: 42px;margin-bottom: -25px;" class="border-bottom mb-4">For developers.<br /><span style="font-size: 18px;line-height: 28px;display: inline-block;">Product is different. We are currently expanding and looking for talented engineers to guide us in the right path. Apply with our interactive online portal.</span></legend>
+        <a href="{% url 'blog-careers' %}"><button class="global-btn-3-blue">View our developers page</button></a>
+    </div>
+
+
+
+    <script>
+        document.getElementById("id_username").setAttribute("placeholder", "Enter a new username");
+        document.getElementById("id_email").setAttribute("placeholder", "Enter your email");
+        document.getElementById("id_password1").setAttribute("placeholder", "Enter a new password");
+        document.getElementById("id_password2").setAttribute("placeholder", "Enter the same password");
+    </script>
+{% endblock content %}

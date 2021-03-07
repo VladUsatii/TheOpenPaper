@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    label[for="id_username"] {
+        display: none;
+    }
+    label[for="id_password"] {
+        display: none;
+    }
+</style>
+    <div class="blog-container p-3">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend style="line-height: 42px;margin-bottom: -25px;font-family: 'Philosopher', sans-serif;" class="border-bottom mb-4">Log in to Product<br /><span style="font-size: 18px;line-height: 28px;display: inline-block;">Welcome back! Enter your account here.</span></legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="global-btn-2" type="submit">Log in</button>
+                <small class="text-muted ml-3">
+                    <a href="{% url 'password_reset' %}">Forgot password?</a>
+                </small>
+            </div>
+        </form>
+            <small class="needaccount">
+                Need an account? <a class="ml-2" href="{% url 'register' %}">Sign up here</a>
+            </small>
+    </div>
+
+    <script>
+        document.getElementById("id_username").setAttribute("placeholder", "Enter your username");
+        document.getElementById("id_password").setAttribute("placeholder", "Enter your password");
+    </script>
+{% endblock content %}

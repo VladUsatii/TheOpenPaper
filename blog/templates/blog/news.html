@@ -1,0 +1,190 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% load static %} <!-- Don't know why this has to be loaded? -->
+{% block content %}
+<div id="webpage-preview-fox" class="webpage-preview-fox">
+    <div class="tab-preview">
+        <a href="{% url 'blog-home' %}" onclick="playSound('');"><img src="{% static 'blog/productLogo.png' %}" class="logo-nav-onhoverinc"></a>
+        <h1 class="navbar-item-left" style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 18px;color: white;font-weight: 600;vertical-align: middle;padding-top:8px;">Fox Business</h1>
+        <a class="navbar-item-right"><button class="btn-register" id="fox-btn-close">Back</button></a>
+    </div>
+    <div id="iframeHolder" style="height: 100%;"></div>    
+</div>
+
+<div id="webpage-preview-npr" class="webpage-preview-fox">
+    <div class="tab-preview">
+        <a href="{% url 'blog-home' %}" onclick="playSound('');"><img src="{% static 'blog/productLogo.png' %}" class="logo-nav-onhoverinc"></a>
+        <h1 class="navbar-item-left" style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 18px;color: white;font-weight: 600;vertical-align: middle;padding-top:8px;">NPR News</h1>
+        <a class="navbar-item-right"><button class="btn-register" id="npr-btn-close">Back</button></a>
+    </div>
+    <div id="iframeHolder2" style="height: 100%;"></div>    
+</div>
+
+<div id="webpage-preview-nyt" class="webpage-preview-fox">
+    <div class="tab-preview">
+        <a href="{% url 'blog-home' %}" onclick="playSound('');"><img src="{% static 'blog/productLogo.png' %}" class="logo-nav-onhoverinc"></a>
+        <h1 class="navbar-item-left" style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 18px;color: white;font-weight: 600;vertical-align: middle;padding-top:8px;">The NYT</h1>
+        <a class="navbar-item-right"><button class="btn-register" id="nyt-btn-close">Back</button></a>
+    </div>
+    <div id="iframeHolder3" style="height: 100%;"></div>    
+</div>
+
+
+    
+    <h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">News</h1>
+        <div style="width: 100%;background-color: #1c1c1c; padding: 25px;border-radius: 5px;margin-bottom: 25px;">
+            <mark style="position: absolute;background-color: rgb(42, 145, 255);color:white;padding:5px;top: 50px;float:right;right:25px;border-radius: 10px;">&nbsp;&nbsp;Presented by Product.&nbsp;&nbsp;</mark>
+            {% if user.is_authenticated %}
+                <h1 style="font-family: BlinkMacSystemFont, sans-serif;font-size:28px;color:white;font-weight:500;"><span id="timeofday"></span>{{ user.username }}!</h1>
+                <p style="font-family: BlinkMacSystemFont, sans-serif;font-size:22px;color:white;font-weight:300;">Your daily news:</p>
+                <p style="font-family: BlinkMacSystemFont, sans-serif;font-size:16px;color:white;font-weight:300;">This doesn't work. {{ head1 }}</p>
+            {% else %}
+                <h1 style="font-family: BlinkMacSystemFont, sans-serif;font-size:28px;color:white;font-weight:500;">You must log in to see daily news updates.</h1>
+                <p style="font-family: BlinkMacSystemFont, sans-serif;font-size:22px;color:white;font-weight:300;">Get access to hundreds of articles, press releases, and updates with just a few details about yourself. Sign up today!</p>
+                <a href="{% url 'register' %}"><button class="global-btn-3">Sign up</button></a><a href="{% url 'login' %}"><button class="global-btn-3" style="background-color: #333;">Log in</button></a>
+            {% endif %}
+        </div>
+
+        <h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">Pick any news channel to read on our site.</h1>
+        <h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">A curated list for you.</h1>
+            
+        <button style="color: transparent;border: none;color: inherit;background-color:inherit;text-align: left;margin-bottom: 10px;" id="fox-btn">
+            <div class="news-view" style="margin: 0 auto;display: block;cursor: pointer;">
+                <div class="cutoff-news">
+                    <img class="img-news" src="https://images-na.ssl-images-amazon.com/images/I/51HQb9kiUnL.png" style="height: 100%;">
+                </div>
+                <div class="m-3">
+                    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:24px;color:white;font-weight: 600;display: block;">FOX Business</h1>
+                    <small style="font-family:sans-serif;color: rgb(0, 86, 233);font-weight: 700;font-size:13px;">#1 ON TRENDING</small>
+                    <p style="font-size: 15px;color:rgb(176, 176, 176);">The parent Fox News is an American multinational conservative cable news television channel. It is owned by Fox News Media, which itself is owned by the Fox Corporation. The channel broadcasts primarily from studios at 1211 Avenue of the Americas in New York City.
+                    <br />
+                    <a href="https://en.wikipedia.org/wiki/Fox_News" class="a-blue" style="padding: 0px;padding-top:5px;">Wikipedia</a></p>
+                </div>
+            </div>
+        </button>
+        <button style="color: transparent;border: none;color: inherit;background-color:inherit;text-align: left;margin-bottom: 10px;" id="npr-btn">
+            <div class="news-view" style="margin: 0 auto;display: block;cursor: pointer;border-top-left-radius: 5px;border-top-right-radius: 5px;">
+                <div class="cutoff-news" style="border-top-left-radius: 5px;border-top-right-radius: 5px;">
+                    <img class="img-news" src="https://media.npr.org/assets/img/2019/06/17/nprlogo_rgb_whiteborder_custom-7c06f2837fb5d2e65e44de702968d1fdce0ce748-s800-c85.png" style="height: 70%;">
+                </div>
+                <div class="m-3">
+                    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:24px;color:white;font-weight: 600;display: block;">NPR</h1>
+                    <small style="font-family:sans-serif;color: rgb(0, 86, 233);font-weight: 700;font-size:13px;">#2 ON TRENDING</small>
+                    <p style="font-size: 15px;color:rgb(176, 176, 176);">National Public Radio is an American privately and publicly funded non-profit media organization based in Washington, D.C. NPR differs from other non-profit membership media organizations, such as AP, in that it was established by an act of Congress and most of its member stations are owned by government entities.
+                    <br />
+                    <a href="https://en.wikipedia.org/wiki/npr" class="a-blue" style="padding: 0px;padding-top:5px;">Wikipedia</a></p>
+                </div>
+            </div>
+        </button>
+
+        <button style="color: transparent;border: none;color: inherit;background-color:inherit;text-align: left;" id="nyt-btn">
+            <div class="news-view" style="margin: 0 auto;display: block;cursor: pointer;border-bottom-left-radius: 25px;border-bottom-right-radius: 25px;border-top-left-radius: 5px;border-top-right-radius: 5px;">
+                <div class="cutoff-news" style="border-top-left-radius: 5px;border-top-right-radius: 5px;">
+                    <img class="img-news" src="https://yt3.ggpht.com/a/AATXAJyDX6fn6odU9KqLzyz1jmr6Sf2suzpO0z07ofGTew=s900-c-k-c0xffffffff-no-rj-mo" style="height: 160%;">
+                </div>
+                <div class="m-3">
+                    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:24px;color:white;font-weight: 600;display: block;">The New York Times</h1>
+                    <small style="font-family:sans-serif;color: rgb(0, 86, 233);font-weight: 700;font-size:13px;">#3 ON TRENDING</small>
+                    <p style="font-size: 15px;color:rgb(176, 176, 176);">The New York Times is an American newspaper based in New York City with worldwide influence and readership. Nicknamed the Gray Lady, the Times has long been regarded within the industry as a national "newspaper of record".
+                    <br />
+                    <a href="https://en.wikipedia.org/wiki/the_new_york_times" class="a-blue" style="padding: 0px;padding-top:5px;">Wikipedia</a></p>
+                </div>
+            </div>
+        </button>
+        
+
+
+    {% if user.is_authenticated %}
+    {% else %}
+            <div class="sign-up-log-in">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+            <div class="sign-up-log-in-2">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+
+            <div class="sign-up-log-in-mobile">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+    {% endif %}
+
+    <script>
+        $(function(){
+            $('#fox-btn').click(function(){ 
+                if(!$('#iframe').length) {
+                    $('#iframeHolder').html('<iframe target="_self" src="https://www.foxbusiness.com/" style="position: relative; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>');
+                    $('#webpage-preview-fox').css({
+                        'left': '0px',
+                        'background-color': '#111'
+                    });
+                }
+            });
+            $('#fox-btn-close').click(function(){ 
+                if(!$('#iframe').length) {
+                    $('#iframeHolder').html('')
+                    $('#webpage-preview-fox').css({
+                        'left': '100%'
+                    });
+                }
+            });
+
+            $('#npr-btn').click(function(){ 
+                if(!$('#iframe').length) {
+                    $('#iframeHolder2').html('<iframe target="_self" src="https://www.npr.org/" style="position: relative; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>');
+                    $('#webpage-preview-npr').css({
+                        'left': '0px',
+                        'background-color': '#111'
+                    });
+                }
+            });
+            $('#npr-btn-close').click(function(){ 
+                if(!$('#iframe').length) {
+                    $('#iframeHolder2').html('')
+                    $('#webpage-preview-npr').css({
+                        'left': '100%'
+                    });
+                }
+            });
+
+            $('#nyt-btn').click(function(){ 
+                if(!$('#iframe').length) {
+                    $('#iframeHolder3').html('<iframe target="_self" src="https://www.nytimes.com/" style="position: relative; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>');
+                    $('#webpage-preview-nyt').css({
+                        'left': '0px',
+                        'background-color': '#111'
+                    });
+                }
+            });
+            $('#nyt-btn-close').click(function(){ 
+                if(!$('#iframe').length) {
+                    $('#iframeHolder3').html('')
+                    $('#webpage-preview-nyt').css({
+                        'left': '100%'
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        var d = new Date(); // for now
+        if (d.getHours() >= 12) {
+            document.getElementById('timeofday').innerText = "Good afternoon, "
+        } else if (d.getHours() >= 18) {
+            document.getElementById('timeofday').innerText = "Good evening, "
+        } else {
+            document.getElementById('timeofday').innerText = "Good morning, "
+        }
+    </script>
+{% endblock content %}
+
+

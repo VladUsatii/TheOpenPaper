@@ -1,0 +1,65 @@
+{% extends "blog/base-ads.html" %}
+{% block content %}
+<style>
+    .option-career {
+        position: relative;
+        width:100%;
+        padding: 25px;
+        padding-bottom:45px;
+        border-radius: 5px;
+        background-color:rgb(28, 28, 28);
+        font-size:14px;
+        color:white;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 500;
+        margin-bottom: 5px;
+        transition: 0.3s;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -o-transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .option-career:hover {
+        background-color: rgb(36, 36, 36);
+    }
+</style>
+<div class="appearonmobile" style="display: block;">
+    <div style="position: relative;max-width: 500px;width:100%;background-color: transparent;padding-left: 25px;padding-right:25px;margin: 0 auto;display: block;margin-bottom: 100px;">
+        <h1 style="position: relative;font-family: 'Philosopher', sans-serif;font-size:38px;color:white;font-weight: 900;">Open Careers</h1>
+        <p style="position: relative;font-family: 'Philosopher', sans-serif;font-size:24px;color:white;font-weight: 900;margin-top:25px;margin-bottom:0px;">Marketing</p>
+        <p style="margin-bottom: 10px;">🔥🔥🔥</p>
+        <div class="option-career" id="chiefmarketingofficer">
+            <span style="float:left;">Chief Marketing Officer</span><span style="float:right;">Remote</span>
+        </div>
+        <div class="option-career" id="chiefmarketingassistant">
+            <span style="float:left;">Chief Marketing Assistant</span><span style="float:right;">Remote</span>
+        </div>
+        <div class="option-career" id="personalrelationsofficer">
+            <span style="float:left;">Personal Relations Officer</span><span style="float:right;">Local</span>
+        </div>
+        <div class="option-career" id="growthlead">
+            <span style="float:left;">Growth Lead</span><span style="float:right;">Remote</span>
+        </div>
+        <br />
+        <p style="margin-bottom: 10px;">🔥🔥</p>
+        <div class="option-career" id="bigdatalead">
+            <span style="float:left;">Big Data Lead</span><span style="float:right;">Local</span>
+        </div>
+        <div class="option-career" id="datascientist">
+            <span style="float:left;">Data Scientist</span><span style="float:right;">Remote</span>
+        </div>
+        <br />
+        <p style="margin-bottom: 10px;">🔥</p>
+        <div class="option-career" id="mediamarketingagent">
+            <span style="float:left;">Media Marketing Agent</span><span style="float:right;">Local</span>
+        </div>
+        <div style="margin: 0 auto;display:block;position:relative;text-align:center;">
+            <a href="{% url 'blog-pricing' %}" style="text-decoration:none;color:inherit;"><button class="create-listing-btn mt-5">See plans</button></a>
+            <a href="{% url 'blog-docs' %}" style="text-decoration:none;color:inherit;"><button class="create-listing-btn mt-5" style="background-color:#2c2c2c;">Read our Docs</button></a>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+

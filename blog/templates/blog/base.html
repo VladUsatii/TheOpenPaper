@@ -1,0 +1,530 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Mapbox -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <!-- Favicon -->
+    <link href="{% static 'blog/productIcon.png' %}" rel="shortcut icon" type="image/png" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Fontawesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="../static/blog/main.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Connect with the world and share stories on the first censorship-free social media network. Product is productive.">
+    {% if title %}
+        <title>Product - {{ title }}</title>
+    {% elif user.is_authenticated %}
+      <title>Product - Signed in as {{ user.username }}</title>
+    {% else %}
+        <title>Product</title>
+    {% endif %}
+</head>
+<body>
+
+    <div class="modalbox-setback" style="cursor: pointer;" id="modalbox-setback"></div>
+    <div class="modalbox-set" id="modalbox-set">
+        <button class="whythisad" id="modalbox-x" style="position:fixed;right:-40px;top:-15px;"><i class="fas fa-times"></i></button>
+        <h1 style="width:100%;position:relative;font-family: BlinkMacSystemFont, 'Open Sans', sans-serif;font-size:20px;color:white;padding:10px;padding-bottom:25px;text-align:center;font-weight:500;display: block;border-bottom: solid 2px rgb(48, 48, 48);">Something wrong?</h1>
+        <p style="font-size:16px;color:white;font-family:'Open Sans', sans-serif;font-weight:400;padding: 10px;">Currently, Product is in Alpha 0.01. This is the first ever version and release of Product, and there are an incomprehensible amount of bugs yet to fix. Please report errors with a custom post for now. We will add a submission button here in the near future.</p>
+    </div>
+
+
+
+    <div class="lowertab" style="cursor: pointer;">
+        <h1 style="font-family: 'Open Sans', sans-serif;font-size:16px;color:white;padding-top:15px;padding-bottom: 10px;padding-left: 25px;">Surface Read&nbsp;&nbsp;<i class="fas fa-book-open"></i></h1>
+    </div>
+    <div class="content-lowertab">
+        <div class="grid">
+            <div class="cell" style="height: 100px;">
+                <br />
+                <h1 class="align-cell" style="line-height: 24px;">Shadow<br /><i>Coming soon</i></h1>
+            </div>
+            <div class="cell" style="height: 100px;">
+                <br />
+                <h1 class="align-cell" style="line-height: 24px;">Pages<br /><i>Coming soon</i></h1>
+            </div>
+            <div class="cell" style="height: 100px;">
+                <br />
+                <h1 class="align-cell" style="line-height: 24px;">Cards<br /><i>Coming soon</i></h1>
+            </div>
+          </div>
+    </div>
+    <header class="site-header">
+        <nav class="navbar-brand">
+          <div class="container">
+            <a href="{% url 'blog-home' %}"><img src="{% static 'blog/productLogo.png' %}" class="logo-nav-onhoverinc"></a>
+                <a class="navbar-item-left" href="{% url 'blog-home' %}">Your Feed&nbsp;&nbsp;<i class="fas fa-globe-americas"></i></a>
+                <a class="navbar-item-left-unreloadable" href="{% url 'blog-groups' %}">Groups&nbsp;&nbsp;<i class="fas fa-users"></i></a>
+                <a class="navbar-item-left-unreloadable" href="{% url 'blog-people' %}">Search&nbsp;&nbsp;<i class="fas fa-search"></i></a>
+
+                <a class="navbar-item-left-unreloadable-mobile" tooltip="Friends" flow="down" href="/"><i class="fas fa-users"></i></a>
+                <a class="navbar-item-left-unreloadable-mobile" tooltip="Search" flow="down" href="{% url 'blog-people' %}"><i class="fas fa-search"></i></a>
+
+                {% if user.is_authenticated %}
+                {% if request.path == '/' %}
+                    <button class="btn-login-loggedin2" onclick="checkNotif()"><i class="fas fa-bell" style="pointer-events: none;"></i></button>
+                    <div id="myDropdownCheckNotif" class="dropdown-content2">
+                        <div style="padding: 15px;padding-bottom: 0px;">
+                            <h1 style="font-family: 'Philosopher', sans-serif;font-size:22px;color:white;">Notifications</h1>
+                        </div>
+                        {% for notification in notifications %}
+                        <a class="navbar-item-right" href="{% url 'post-detail' notification.id %}">
+                        <div class="box-upload-1">
+                            <img class="author" src="{{ notification.author.profile.image.url }}" style="margin-left:0px;margin-top:-2.5px;margin-bottom:5px;margin-right:5px;display: inline;">
+                            <p style="position:absolute;left:60px;top:0px;font-size:10px;color:#999;font-family:BlinkMacSystemFont, sans-serif;font-weight:500;">Recommended</p>
+                            <p style="font-size:16px;color:white;font-family:BlinkMacSystemFont, sans-serif;font-size:14px;font-weight:500;display: inline;">Read {% if notification.title %}{{ notification.title|truncatechars:30 }}{% else %}{{ notification.content|truncatechars:30 }}{% endif %}</p>
+                        </div>
+                        </a>
+                        {% empty %}
+                        {% endfor %}
+                        {% if user.profile.Write_your_bio == '' %}
+                        <a class="navbar-item-right" href="{% url 'profile' %}#section2">
+                            <div class="box-upload-1">
+                                <div style="position:absolute;top:5px;height:15px;width:15px;border-radius:50%;background-color:rgb(0, 115, 255);z-index:10;"></div>
+                                <img class="author" src="{{ user.profile.image.url }}" style="margin-left:0px;margin-top:-2.5px;margin-bottom:5px;margin-right:5px;display: inline;">
+                                <p style="position:absolute;left:60px;top:0px;font-size:10px;color:#999;font-family:BlinkMacSystemFont, sans-serif;font-weight:500;">Update Profile</p>
+                                <p style="font-size:16px;color:white;font-family:BlinkMacSystemFont, sans-serif;font-size:14px;font-weight:500;display: inline;">{{ user.username }}! Write your bio here.</p>
+                            </div>
+                        </a>
+                        {% endif %}
+                        {% if user.profile.Add_an_education_credential == '' %}
+                        <a class="navbar-item-right" href="{% url 'profile' %}#section2">
+                            <div class="box-upload-1">
+                                <div style="position:absolute;top:5px;height:15px;width:15px;border-radius:50%;background-color:rgb(0, 115, 255);z-index:10;"></div>
+                                <img class="author" src="{{ user.profile.image.url }}" style="margin-left:0px;margin-top:-2.5px;margin-bottom:5px;margin-right:5px;display: inline;">
+                                <p style="position:absolute;left:60px;top:0px;font-size:10px;color:#999;font-family:BlinkMacSystemFont, sans-serif;font-weight:500;">Update Profile</p>
+                                <p style="font-size:16px;color:white;font-family:BlinkMacSystemFont, sans-serif;font-size:14px;font-weight:500;display: inline;">{{ user.username }}! Add an education cred here.</p>
+                            </div>
+                        </a>
+                        {% endif %}
+                       <!-- Home_details Current_city Current_address Add_hometown -->
+                       {% if user.profile.Add_current_title == '' or user.profile.Add_current_employer == '' %}
+                       <a class="navbar-item-right" href="{% url 'profile' %}#section2">
+                            <div class="box-upload-1">
+                                <div style="position:absolute;top:5px;height:15px;width:15px;border-radius:50%;background-color:rgb(0, 115, 255);z-index:10;"></div>
+                                <img class="author" src="{{ user.profile.image.url }}" style="margin-left:0px;margin-top:-2.5px;margin-bottom:5px;margin-right:5px;display: inline;">
+                                <p style="position:absolute;left:60px;top:0px;font-size:10px;color:#999;font-family:BlinkMacSystemFont, sans-serif;font-weight:500;">Update Profile</p>
+                                <p style="font-size:16px;color:white;font-family:BlinkMacSystemFont, sans-serif;font-size:14px;font-weight:500;display: inline;word-break:break-all;">Add your profession and workplace cred.</p>
+                            </div>
+                        </a>
+                       {% endif %}
+                       {% if user.profile.Home_details == '' or user.profile.Current_city == '' or user.profile.Current_address == '' or user.profile.Add_hometown == '' %}
+                       <a class="navbar-item-right" href="{% url 'profile' %}#section2">
+                            <div class="box-upload-1 curve-bottom">
+                                <div style="position:absolute;top:5px;height:15px;width:15px;border-radius:50%;background-color:rgb(0, 115, 255);z-index:10;"></div>
+                                <img class="author" src="{{ user.profile.image.url }}" style="margin-left:0px;margin-top:-2.5px;margin-bottom:5px;margin-right:5px;display: inline;">
+                                <p style="position:absolute;left:60px;top:0px;font-size:10px;color:#999;font-family:BlinkMacSystemFont, sans-serif;font-weight:500;">Finish Profile</p>
+                                <p style="font-size:16px;color:white;font-family:BlinkMacSystemFont, sans-serif;font-size:14px;font-weight:500;display: inline;word-break:break-all;">Add home details here.</p>
+                            </div>
+                        </a>
+                       {% endif %}
+                    </div>
+                {% endif %}
+                    <button class="btn-login-loggedin" onclick="createPost()"><i class="fas fa-plus" style="pointer-events: none;"></i></button>
+                    <div id="myDropdown" class="dropdown-content">
+                            <div style="padding: 15px;padding-bottom: 0px;">
+                                <h1 style="font-family: 'Philosopher', sans-serif;font-size:22px;color:white;">Create</h1>
+                            </div>
+                            <a class="navbar-item-right" href="{% url 'post-create' %}">
+                            <div class="box-upload-1 curve-top">
+                                <h1 style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:white;font-size:16px;font-weight:800;">Write post</h1>
+                                <p style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:rgb(148, 148, 148);font-size:13px;line-height: 20px;">Add your article or story to our site, along with an optional image, location, and header.</p>
+                            </div>
+                            </a>
+                            <a class="navbar-item-right" href="{% url 'ad-create' %}">
+                            <div class="box-upload-1">
+                                <h1 style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:white;font-size:16px;font-weight:800;">Create ad</h1>
+                                <p style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:rgb(148, 148, 148);font-size:13px;line-height: 20px;">Add your advertisement or promotion to our site, or optionally advertise your profile for search ranking.</p>
+                            </div>
+                            </a>
+                            <a class="navbar-item-right" href="{% url 'market-create' %}">
+                            <div class="box-upload-1 curve-bottom">
+                                <h1 style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:white;font-size:16px;font-weight:800;">Post market listing</h1>
+                                <p style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:rgb(148, 148, 148);font-size:13px;line-height: 20px;">Add your Product Marketplace or promotion listing to our site for potential buyers.</p>
+                            </div>
+                            </a>
+                            <hr style="width:85%;border: solid 1px #ccc;"/>
+                            <a class="navbar-item-right" id="somethingwrong" style="cursor: pointer;">
+                            <div class="box-upload-1 curve-bottom">
+                                <h1 style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:white;font-size:16px;font-weight:800;">Something wrong?</h1>
+                                <p style="white-space:pre-line;position: relative;font-family: 'Open Sans', sans-serif;color:rgb(148, 148, 148);font-size:13px;line-height: 20px;">Report issues or bugs to the Product Alpha team.</p>
+                            </div>
+                            </a>
+                    </div>
+                    <a class="navbar-item-right" href="{% url 'user-posts' user.username %}"><button class="btn-login-loggedin"><i class="fas fa-user-circle"></i></button></a>
+                {% else %}
+                    <a class="navbar-item-right" href="{% url 'login' %}"><button class="btn-login">Login</button></a>
+                    <a class="navbar-item-right" href="{% url 'register' %}"><button class="btn-register">Register</button></a>
+                {% endif %}
+          </div>
+        </nav>
+    </header>
+
+    <main role="main" class="container-closeup">
+        <div class="row">
+          <div class="col-md">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}{% endblock %}
+          </div>
+        </div>
+    </main>
+
+    <!-- Play the satisfying sound -->
+    <audio id="audio" src="../media/click.mp3"></audio>
+    
+    <div class="mobile-side-bar" style="z-index:100;">
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" id="clickersoundreaction"></a>
+        <a style="display: block;" id="clickersound">
+            <button class="mobile-side-bar-btn" tooltip="Profile" flow="down">
+                <img class="mobile-side-bar-category" style="border-radius: 50%;" src="{{ user.profile.image.url }}">
+            </button>
+        </a>
+        {% else %}
+        <a href="{% url 'register' %}" style="display: block;">
+            <button class="mobile-side-bar-btn" tooltip="Register" flow="down">
+                <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/register.png' %}">
+            </button>
+        </a>
+        {% endif %}
+        <a href="{% url 'blog-groups' %}" id="clickersoundreaction2"></a>
+        <a style="display: block;" id="clickersound2">
+            <button class="mobile-side-bar-btn" id="remove-btns-2" tooltip="Groups" flow="down">
+                <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/groups.png' %}">
+            </button>
+        </a>
+        <a href="{% url 'blog-people' %}" id="clickersoundreaction3"></a>
+        <a style="display: block;" id="clickersound3">
+            <button class="mobile-side-bar-btn" id="remove-btns-2" tooltip="Friends" flow="down">
+                <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/friends.png' %}">
+            </button>
+        </a>
+        <a href="{% url 'blog-events' %}" id="clickersoundreaction4"></a>
+        <a style="display: block;" id="clickersound4">
+            <button class="mobile-side-bar-btn" tooltip="Events" flow="down">
+                <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/video.png' %}">
+            </button>
+        </a>
+        <a href="{% url 'blog-news' %}" id="clickersoundreaction5"></a>
+        <a style="display: block;" id="clickersound5">
+            <button class="mobile-side-bar-btn" tooltip="News" flow="down">
+                <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/news.png' %}">
+            </button>
+        </a>
+        <a href="{% url 'blog-stories' %}" id="clickersoundreaction6"></a>
+        <a style="display: block;" id="clickersound6">
+        <button class="mobile-side-bar-btn" id="remove-btns" tooltip="Stories" flow="down">
+            <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/stories.png' %}">
+        </button>
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'user-ads' user.username %}" id="clickersoundreaction7"></a>
+        <a style="display: block;" id="clickersound7">
+        <button class="mobile-side-bar-btn" id="remove-btns" tooltip="Ads" flow="down">
+            <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/ads.png' %}">
+        </button>
+        </a>
+        {% else %}
+        <a href="{% url 'register' %}" style="display: block;">
+            <button class="mobile-side-bar-btn" id="remove-btns" tooltip="Ads" flow="down">
+                <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/ads.png' %}">
+            </button>
+        </a>
+        {% endif %}
+        <a href="{% url 'market-home' %}" id="clickersoundreaction8"></a>
+        <a style="display: block;" id="clickersound8">
+        <button class="mobile-side-bar-btn" tooltip="Market" flow="down">
+            <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/market.png' %}">
+        </button>
+        </a>
+        <a href="{% url 'blog-weather' %}" id="clickersoundreaction9"></a>
+        <a style="display: block;" id="clickersound9">
+            <button class="mobile-side-bar-btn" tooltip="Weather" flow="down">
+                <img class="mobile-side-bar-category" style="filter: invert(100%);" src="{% static 'blog/cloud.png' %}">
+            </button>
+        </a>
+    </div>
+
+    <div class="side-bar">
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" style="display: block;">
+            <button class="side-bar-btn">
+                <img class="side-bar-author" src="{{ user.profile.image.url }}">
+                <h1 class="side-bar-author-username">{{ user.username }}</h1>
+            </button>
+        </a>
+        {% endif %}
+        <a href="{% url 'blog-groups' %}" style="display: block;">
+            <button class="side-bar-btn">
+                <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/groups.png' %}">
+                <h1 class="side-bar-option">Groups</h1>
+            </button>
+        </a>
+        <a href="{% url 'blog-people' %}" style="display: block;">
+            <button class="side-bar-btn">
+                <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/friends.png' %}">
+                <h1 class="side-bar-option">People</h1>
+            </button>
+        </a>
+        <a href="{% url 'blog-events' %}" style="display: block;">
+            <button class="side-bar-btn">
+                <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/video.png' %}">
+                <h1 class="side-bar-option">Events</h1>
+            </button>
+        </a>
+        <a href="{% url 'blog-news' %}" style="display: block;">
+            <button class="side-bar-btn">
+                <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/news.png' %}">
+                <h1 class="side-bar-option">News</h1>
+            </button>
+        </a>
+        <a href="{% url 'blog-stories' %}" style="display: block;">
+        <button class="side-bar-btn">
+            <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/stories.png' %}">
+            <h1 class="side-bar-option">Stories</h1>
+        </button>
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'user-ads' user.username %}" style="display: block;">
+        <button class="side-bar-btn">
+            <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/ads.png' %}">
+            <h1 class="side-bar-option">Ads</h1>
+        </button>
+        </a>
+        {% else %}
+        <a href="{% url 'register' %}" style="display: block;">
+            <button class="side-bar-btn">
+                <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/ads.png' %}">
+                <h1 class="side-bar-option">Ads</h1>
+            </button>
+        </a>
+        {% endif %}
+        <a href="{% url 'market-home' %}" style="display: block;">
+        <button class="side-bar-btn">
+            <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/market.png' %}">
+            <h1 class="side-bar-option">Market</h1>
+        </button>
+        </a>
+        <a href="{% url 'blog-weather' %}" style="display: block;">
+            <button class="side-bar-btn">
+                <img class="side-bar-category" style="filter: invert(100%);" src="{% static 'blog/cloud.png' %}">
+                <h1 class="side-bar-option">Weather</h1>
+            </button>
+        </a>
+        <div style="position:relative;margin: 15px;border: thin solid #555; width: 90%;"></div>
+        <div class="footer-only-left">
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;line-height: 26px;">Copyright © 2020 Product. Created by Vlad Usatii.</h1>
+            <h1 style="position: relative;font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';font-size:14px;color:white;line-height: 26px;">
+                <a class="a" href="{% url 'blog-about' %}">About</a>&nbsp;&nbsp;•&nbsp;
+				<a class="a" href="{% url 'blog-blog' %}">Blog</a>&nbsp;&nbsp;•&nbsp;
+                <a class="a" href="{% url 'blog-careers' %}">Careers</a>&nbsp;&nbsp;•&nbsp;
+                <a class="a" href="{% url 'blog-legal' %}">Legal</a>&nbsp;&nbsp;•&nbsp;
+                <a class="a" href="{% url 'blog-business' %}">Business</a>&nbsp;&nbsp;•&nbsp;
+                <a class="a" href="{% url 'blog-adtracking' %}">Ad Tracking</a>
+            </h1>    
+        </div>
+    </div>
+
+    <br />
+    <div class="footer-only">
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;line-height: 26px;">Copyright © 2020 Product. Created by Vlad Usatii.</h1>
+            <hr style="width:50%;text-align:left;margin-left:0;color:white;border: solid 1px rgb(91, 91, 91);">
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;line-height: 26px;">
+            <a class="a" href="{% url 'blog-about' %}">About</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-blog' %}">Blog</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-careers' %}">Careers</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-legal' %}">Legal</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-business' %}">Business</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-adtracking' %}">Ad Tracking</a>
+        </h1>
+    </div>
+
+
+    <span id="dummy"></span>
+    {% block footer %}
+    <script>
+        var coll = document.getElementsByClassName("lowertab");
+        var i;
+        
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+              content.style.display = "none";
+            } else {
+              content.style.display = "block";
+            }
+          });
+        }
+
+    var audio = document.getElementById("audio");
+    audio.volume = 0.2;
+    </script>
+
+    <script>
+
+    $(document).ready(function() {
+        window.onload = function () {
+        $('#timeline-wrapper').fadeOut(0, function(){ $('#timeline-wrapper').remove(); } );
+        $('#timeline-wrapper-2').fadeOut(0, function(){ $('#timeline-wrapper').remove(); } );
+        $('#timeline-wrapper-3').fadeOut(0, function(){ $('#timeline-wrapper').remove(); } );
+        $('#preload').fadeIn(500);
+        }
+    });
+
+    $("#Pops").popover({
+        html: true,
+        content: function () {
+            return $('#popover-content').html();
+        }
+    });
+
+    $('#clickersound').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound2').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction2')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound3').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction3')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound4').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction4')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound5').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction5')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound6').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction6')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound7').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction7')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound8').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction8')[0].click();
+        }, 300);
+    });
+
+    $('#clickersound9').click(function(){
+        $("#audio")[0].play();
+        setTimeout(function() {
+            $('#clickersoundreaction9')[0].click();
+        }, 300);
+    });
+
+    $('#somethingwrong').click(function(){
+        $('#modalbox-set').fadeToggle();
+        $('#modalbox-setback').toggle();
+    })
+
+    $('#modalbox-setback').click(function(){
+        $('#modalbox-set').fadeToggle();
+        $('#modalbox-setback').toggle();
+    })
+
+    $('#modalbox-x').click(function(){
+        $('#modalbox-set').fadeToggle();
+        $('#modalbox-setback').toggle();
+    })
+</script>
+
+    <script>
+
+    function createPost() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function checkNotif() {
+        document.getElementById("myDropdownCheckNotif").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+    if (!event.target.matches('.btn-login-loggedin') || event.target.matches('.btn-login-loggedin2')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+        }
+        }
+    }
+    if (!event.target.matches('.btn-login-loggedin2') || event.target.matches('.btn-login-loggedin')) {
+        var dropdowns2 = document.getElementsByClassName("dropdown-content2");
+        var i2;
+        for (i2 = 0; i2 < dropdowns2.length; i2++) {
+        var openDropdown2 = dropdowns2[i2];
+        if (openDropdown2.classList.contains('show')) {
+            openDropdown2.classList.remove('show');
+        }
+        }
+    }
+    }
+    </script>
+    {% endblock %}
+</body>
+</html>

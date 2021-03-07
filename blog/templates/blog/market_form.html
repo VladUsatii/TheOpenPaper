@@ -1,0 +1,203 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1 style="position: relative;margin-top:-20px;font-family: 'Philosopher', sans-serif;font-size: 36px;color:white;padding-bottom: 15px;white-space: pre-wrap;word-wrap:break-word;">Product Marketplace&nbsp;&nbsp;<i class="fas fa-store"></i></h1>
+    <div class="blog-container-market">
+        <form enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group" id="q1">
+                    <legend style="font-family: 'Charter Bold', sans-serif;font-size:32px;color:white;line-height: 42px;margin-bottom: -5px;">Post a new listing.</legend>
+                <legend style="font-family: 'Open Sans', sans-serif;font-size:18px;color:white;">Enter a detailed description about your product. The more you enter, the faster you will reach a buyer.</legend>
+                <legend style="font-family: 'Open Sans', sans-serif;font-size:15px;color:rgb(108, 108, 108);font-weight: 400;">In Product's Marketplace, you have the option of inserting your PayPal for online payments, or simply meet up in-person. Note that we aren't responsible for problems concerning safety or misuse. To be 100% safe, consider doing business with people you <b>know</b>, only.</legend>
+                <p style="position: relative;padding-left:10px;padding-right:10px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Enter your product's title <span style="color:rgb(179, 179, 179);">(remember to be as specific as possible)</span></p>
+                {{ form.enter_title }}
+                <p style="padding-top:15px;position: relative;padding-left:10px;padding-right:10px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Enter a price for your product <span style="color:rgb(179, 179, 179);">(any price will do)</span></p>
+                {{ form.enter_price }}
+                <p style="padding-top:15px;position: relative;font-weight:900;padding-left:10px;padding-right:0px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Enter product condition</p>
+                {{ form.enter_condition }}
+                <br />
+                <label id="hiddenimgreplace">
+                    {{ form.Top_image_of_product }}
+                    <span class="uploadadtxt">Upload your for-sale item</span>
+                </label>
+                <div id="hidden_or_not2" style="display: none;">
+                    <div class="cutoff" id="hidden_or_not" style="position:relative;display: none;width:50%;top:50px;margin-bottom: 75px;border: solid 1px white;">
+                        <img id="preview" src="#" class="img-market"/>
+                    </div>
+                    <h1 style="position: relative;padding-left:25px;padding-bottom:25px;font-family: 'Charter', sans-serif;font-size:15px;color:white;font-weight: 600;">Product does not support videos or multiple photos in its alpha.</h1>
+                </div>
+                <p style="margin-top:25px;position: relative;padding-left:10px;padding-right:10px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Make a short description about your product <span style="color:rgb(179, 179, 179);">(remember to be as specific as possible)</span></p>
+                {{ form.Describe_product }}
+                <p style="position: relative;padding-top:15px;padding-left:10px;padding-right:10px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Please add your address as a pickup point for potential buyers.</p>
+                {{ form.enter_public_address }}
+                <div id='map' style='width: 100%; height: 200px;border-bottom-right-radius: 15px;border-bottom-left-radius: 15px;'></div>
+                <p style="padding-top:15px;position: relative;font-weight:900;padding-left:10px;padding-right:0px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Enter product type</p>
+                {{ form.enter_item_type }}
+                <br />
+                
+                <button class="global-btn-2" type="submit">Submit</button>
+                <br />
+                <small style="color: #888;"><br />By submitting this form, you agree to our Terms of Service.</small>
+            </fieldset>
+        </form>
+    </div>
+    <div class="right-side-bar">
+        <h1 style="position: relative;font-family: 'Charter Bold', sans-serif;font-size: 24px;color:white;padding-top: 15px;padding-bottom:15px;"><mark style="font-size:18px;color:white;font-weight:900;font-family:sans-serif;background-color:rgb(255, 87, 87);border-radius:5px;">LIVE</mark> Preview</h1>
+        <div class="blog-container-previews">
+            <h1 class="id_enter_title" style="position: relative;font-family: 'Open Sans', sans-serif;font-size:28px;color:rgb(154, 154, 154);margin-top:-25px;margin-bottom: -35px;">Title</h1>
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-weight:900;font-size:14px;color:rgb(255, 255, 255);margin-bottom: -35px;">Condition & image(s) will be added after publishing</h1>
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:18px;color:rgb(255, 255, 255);margin-bottom: -35px;">$<span class="id_enter_price">0.00</span></h1>
+                <img src="{% static 'blog/noimagefound.png' %}" style="position: relative;width: 100%;border-radius: 25px;">
+                <p style="position: relative;font-family: 'Open Sans', sans-serif;font-size:16px;color:rgb(255, 255, 255);margin-bottom: -35px;" class="id_Describe_product">Description</p>
+            <p style="position: relative;font-family: 'Open Sans', sans-serif;color:rgb(154, 154, 154);"><span class="id_enter_public_address">Address</span>&nbsp;&nbsp;•&nbsp;&nbsp;<span id="dated"></span></p>
+            <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-weight:900;font-size:14px;color:rgb(255, 255, 255);margin-top: -35px;margin-bottom: -15px;">Single List Item</h1>
+        </div>
+        {% for ad in ads %}
+                {% if forloop.first %}
+                <a href="{% url 'ad-detail' ad.id %}" target="_self" style="color: inherit;text-decoration:none;">
+                    <article class="ad-container">
+                        <p style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:rgb(181, 181, 181);font-weight: 500;padding-left:20px;">Sponsored <i class="fas fa-external-link-alt"></i>&nbsp;&nbsp;&nbsp;<span style="font-size:13px;color:#888;">Click on post to learn more</span></p>
+                            <h2 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 18px;color:rgb(227, 227, 227);font-weight: 300;top: -5px;padding-left:20px;">{{ ad.title }}</h2>
+                            {% if ad.image %}
+                            <div class="contain-ad-image-contain">
+                            <div class="contain-ad-image-2">
+                                <img style="position:relative;width: 100%;min-height: 100%;" src="{{ ad.image.url }}" alt="{{ ad.name }} image" />
+                            </div>
+                            </div>
+                                <p style="position: relative;padding-top:25px;font-family: 'Open Sans', sans-serif;font-size: 13px;color:rgb(255, 255, 255);font-weight: 300;top: -5px;padding-left:20px;">{{ ad.content }}</p>
+                            {% else %}
+                                <p style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 13px;color:rgb(255, 255, 255);font-weight: 300;top: -5px;padding-left:20px;">{{ ad.content }}</p>
+                            {% endif %}
+                    </article>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <script>
+        // Getting the day in 'Social Media' format
+        // Define date
+        const d = new Date();
+        // Make a list of all months
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+        ];
+        // Make a list of all days
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        // Assign the value to my <p> date tag.
+        var dating = document.getElementById("dated");
+        dating.innerHTML = days[d.getDay()] + ', ' + monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    </script>
+    <!-- Link jQuery behind it -->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+            $('#preview').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+            $("#hidden_or_not").fadeToggle();
+            $("#hidden_or_not2").fadeToggle();
+            $('#hiddenimgreplace').css("display", "none");
+        } else {
+            $("#hidden_or_not").fadeToggle();
+        }
+        }
+
+        $("#id_Top_image_of_product").change(function() {
+            readURL(this);
+        });
+
+
+
+
+        // Update title every time
+        $('#id_enter_title').keyup(function(){
+            var $this = $(this);
+            $('.'+$this.attr('id')+'').html($this.val());
+        });
+        // Update price every time
+        $('#id_enter_price').keyup(function(){
+            var $this = $(this);
+            $('.'+$this.attr('id')+'').html($this.val());
+        });
+        // Update body tag every time
+        $('#id_Describe_product').keyup(function(){
+            var $this = $(this);
+            $('.'+$this.attr('id')+'').html($this.val());
+        });
+        // Update address tag every time
+        $('#id_enter_public_address').keyup(function(){
+            var $this = $(this);
+            $('.'+$this.attr('id')+'').html($this.val());
+        });
+    </script>
+    <script src="https://unpkg.com/es6-promise@4.2.4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css' />
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoidmxhZHVzYXRpaSIsImEiOiJja2VobmtjN3IxcjUzMnJwM25rYXJxNTVqIn0.oV-nN9MHUbezC2P9BKHd6w';
+    var map = new mapboxgl.Map({
+        container: 'map', // Container ID
+        style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+        center: [-122.25948, 37.87221], // Starting position [lng, lat]
+        zoom: 12, // Starting zoom level
+    });
+
+    var marker = new mapboxgl.Marker() // Initialize a new marker
+        .setLngLat([-122.25948, 37.87221]) // Marker [lng, lat] coordinates
+        .addTo(map); // Add the marker to the map
+
+    var geocoder = new MapboxGeocoder({ // Initialize the geocoder
+        accessToken: mapboxgl.accessToken, // Set the access token
+        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+        marker: false, // Do not use the default marker style
+        placeholder: 'Search', // Placeholder text for the search bar
+        bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
+        proximity: {
+        longitude: -122.25948,
+        latitude: 37.87221
+        } // Coordinates of UC Berkeley
+    });
+
+    // Add the geocoder to the map
+    map.addControl(geocoder);
+
+    // After the map style has loaded on the page,
+    // add a source layer and default styling for a single point
+    map.on('load', function() {
+        map.addSource('single-point', {
+        type: 'geojson',
+        data: {
+            type: 'FeatureCollection',
+            features: []
+        }
+        });
+
+        map.addLayer({
+        id: 'point',
+        source: 'single-point',
+        type: 'circle',
+        paint: {
+            'circle-radius': 10,
+            'circle-color': '#448ee4'
+        }
+        });
+
+        // Listen for the `result` event from the Geocoder
+        // `result` event is triggered when a user makes a selection
+        // Add a marker at the result's coordinates
+        geocoder.on('result', function(ev) {
+        map.getSource('single-point').setData(ev.result.geometry);
+        });
+    });
+    </script>
+{% endblock content %}

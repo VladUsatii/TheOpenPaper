@@ -1,0 +1,52 @@
+{% extends "blog/base.html" %}
+{% load static %} <!-- Don't know why this has to be loaded? -->
+{% block content %}
+<div class="contain-listing-btns">
+    {% if user.is_authenticated %}
+    <a href="{% url 'market-create' %}" style="text-decoration:none;color:inherit;"><button class="create-listing-btn">Create new listing</button></a>
+    {% else %}
+    <a href="{% url 'register' %}" style="text-decoration:none;color:inherit;"><button class="create-listing-btn">Create an account</button></a>
+    <a href="{% url 'login' %}" style="text-decoration:none;color:inherit;"><button class="edit-listing-btn">Log in</button></a>
+    {% endif %}
+</div>
+<h1 style="font-family: 'Kievit Serif Bold',sans-serif;font-size:48px;color: white;padding-right: 25px;display: block;">Product Marketplace</h1>
+<h1 style="font-family: 'Kievit Serif',sans-serif;font-size:28px;color: white;padding-right: 25px;display: block;">Recent listings</h1>
+<h3 style="padding-bottom: 25px;font-family: 'Kievit Serif',sans-serif;font-size:18px;color: rgb(167, 167, 167);padding-right: 25px;display: inline-block;">Great offers, curated for you.</h1>
+<div class="listing-box-contain">
+    {% for market in listings %}
+<a href="{% url 'market-detail' market.id %}">
+        <div class="listing-box">
+        <div class="cutoff">
+            <img src="{{ market.Top_image_of_product.url }}" class="img-market">
+        </div>
+        <h1 style="position: relative;margin-top:-35px;padding: 0px 10px;font-family: 'Open Sans', sans-serif;font-size:18px;color:rgb(154, 154, 154);">{{ market.enter_title|truncatechars:20 }}<br /><h1 style="position: relative;padding: 0px 10px;font-family: 'Open Sans', sans-serif;font-weight:900;font-size:14px;color:rgb(255, 255, 255);">{{ market.enter_condition }}</h1></h1>
+        <h1 style="position: relative;padding: 0px 10px;font-family: 'Open Sans', sans-serif;font-size:18px;color:rgb(255, 255, 255);margin-top: -55px;margin-bottom: -15px;">${{ market.enter_price }}</h1>
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-weight:900;font-size:14px;color:rgb(255, 255, 255);margin-top: -50px;padding-left:10px;padding-right:10px;">{{ market.enter_item_condition }}</h1>
+        <p style="position: relative;font-family: 'Open Sans', sans-serif;font-weight:900;font-size:15px;color:rgb(0, 111, 230);margin-top: -10px;padding-left:10px;padding-right:10px;">{{ market.enter_public_address }}</p>
+    </div>
+</a>
+    {% empty %}
+    <div class="listing-box-2">
+        <h1 style="position: relative;font-family: 'Open Sans',sans-serif;font-size:16px;color:white;text-align:center;padding-left:10px;padding-right:10px;top:30%;">No market posts found.</h1>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+
+
+
+{{ form.enter_price }}
+                <p style="padding-top:15px;position: relative;font-weight:900;padding-left:10px;padding-right:0px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Enter product condition</p>
+                {{ form.enter_condition }}
+                {{ form.Top_image_of_product }}
+                {{ form.Image_2 }}
+                {{ form.Image_3 }}
+                {{ form.Image_4 }}
+                {{ form.Image_5 }}
+                <p style="position: relative;padding-left:10px;padding-right:10px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Make a short description about your product <span style="color:rgb(179, 179, 179);">(remember to be as specific as possible)</span></p>
+                {{ form.Describe_product }}
+                <p style="position: relative;padding-top:15px;padding-left:10px;padding-right:10px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Please add your address as a pickup point for potential buyers.</p>
+                {{ form.enter_public_address }}
+                <div id='map' style='width: 100%; height: 200px;border-bottom-right-radius: 15px;border-bottom-left-radius: 15px;'></div>
+                <p style="padding-top:15px;position: relative;font-weight:900;padding-left:10px;padding-right:0px;font-family:'Open Sans', sans-serif;font-size:16px;color:white;word-wrap:break-word;">Enter product type</p>
+                {{ form.enter_item_type }}

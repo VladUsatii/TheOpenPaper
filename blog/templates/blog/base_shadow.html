@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Favicon -->
+    <link href="{% static 'blog/productIcon.png' %}" rel="shortcut icon" type="image/png" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Fontawesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+        <title>Shadow by Product - {{ title }}</title>
+    {% elif user.is_authenticated %}
+      <title>Shadow by Product - Signed in as {{ user.username }}</title>
+    {% else %}
+        <title>Shadow by Product</title>
+    {% endif %}
+</head>
+<body style="background-color:white;">
+    <header class="site-header">
+        <nav class="navbar-brand" style="background-color: white;border-bottom: solid 1px black;box-shadow: none;">
+          <div class="container">
+            <a href="{% url 'shadow-home' %}"><img src="{% static 'blog/shadowLogo.png' %}" class="logo-nav-onhoverinc" style="filter: none;width:125px;"></a>
+          </div>
+        </nav>
+    </header>
+    <main role="main" class="container-closeup">
+        <div class="row">
+          <div class="col-md">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+    </main>
+    {% block content %}{% endblock %}
+    <!-- <div class="footer-only" style="background-color: rgb(191, 191, 191);max-width: 100%;min-height:200px;">
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;line-height: 26px;">Copyright © 2020 The Product Project. Created by Vlad Usatii.</h1>
+            <hr style="width:50%;text-align:left;margin-left:0;color:white;border: solid 1px rgb(91, 91, 91);">
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 14px;color:white;line-height: 26px;">
+            <a class="a" href="{% url 'blog-about' %}">About</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-careers' %}">Careers</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-legal' %}">Legal</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-business' %}">Business</a>&nbsp;&nbsp;•&nbsp;
+            <a class="a" href="{% url 'blog-adtracking' %}">Ad Tracking</a>
+        </h1>
+        
+    </div> -->
+    {% block footer %}{% endblock %}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>

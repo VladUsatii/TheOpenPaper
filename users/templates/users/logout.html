@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="blog-container p-4">
+        <h2 style="position: relative;font-family: 'Open Sans', sans-serif;font-size: 26px;color:white;">You have been logged out</h2>
+        <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:20px;color:#777;padding-top: 25px;padding-bottom: 25px;">You are being redirected to #GLOBAL (<span id="count">5</span> seconds)</h1>
+        <a href="{% url 'login' %}"><button class="global-btn-2">Log in again</button></a>
+    </div>
+{% endblock content %}
+
+{% block footer %}
+<script>
+setTimeout(function () {
+    window.location.href = "/";
+  }, 5000);   // Time in milliseconds
+
+
+window.onload = function(){
+
+(function(){
+  var counter = 5;
+
+  setInterval(function() {
+    counter--;
+    if (counter >= 0) {
+      span = document.getElementById("count");
+      span.innerHTML = counter;
+    }
+    // Display 'counter' wherever you want to display it.
+    if (counter === 0) {
+    //    alert('this is where it happens');
+        clearInterval(counter);
+    }
+
+  }, 1000);
+
+})();
+
+}
+
+
+
+</script>
+
+{% endblock footer %}

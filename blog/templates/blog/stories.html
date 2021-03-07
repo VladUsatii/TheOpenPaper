@@ -1,0 +1,124 @@
+{% extends "blog/base.html" %}
+{% load app_filters %}
+{% load static %}
+{% block content %}
+
+    <div class="stories-pack">
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+        <a id="lastbtn" href="?page={{ page_obj.previous_page_number }}"></a>
+            <a id="lastbtn-dd" class="next-page-story" style="left: 2%;"><i class="fas fa-arrow-left arrowstorydisappear"></i></a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a id="nextbtn" href="?page={{ page_obj.next_page_number }}"></a>
+            <a id="nextbtn-dd" class="next-page-story" style="right: 2%;"><i class="fas fa-arrow-right arrowstorydisappear"></i></a>
+        {% else %}
+        <a id="nextbtn" href="?page=1"></a>
+            <a id="nextbtn-dd" class="next-page-story" style="right: 2%;"><i class="fas fa-arrow-right arrowstorydisappear"></i></a>
+        {% endif %}
+
+    {% endif %}
+    {% for post in posts %}
+        <div id="pager-dd" style="top:50px;left:200%;position:relative;align-content:center;margin: 0 auto;max-width: 600px;height:100%;overflow-y:auto;display: block;">
+            {% if post.title %}
+                <div class="blogs-title-close"><h2 class="blogs-title" style="margin-left:-25px;font-size: 32px;font-family:'Kievit Serif Book', sans-serif;">{{ post.title }}</h2></div>
+            {% endif %}
+                <a href="{% url 'user-posts' post.author.username %}"><img class="author" style="margin-left:0px;width:35px;height:35px;" src="{{ post.author.profile.image.url }}"></a>
+                    <a class="author-title" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                <p class="blogs">{{ post.content|urlize|linebreaks }}</p>
+                {% if post.image %}
+                        <img class="imagedisplay-title" src="{{ post.image.url }}" alt="{{ post.name }} image" />
+                {% endif %}
+                {% if post.location %}
+                    <p class="blogs-location" style="padding-left: 0px;padding-right:0px;">Post was made in <a class="a-location" target="_blank" href="https://www.google.com/maps/search/{{ post.location }}">{{ post.location|get_city_string }}</a>.&nbsp;&nbsp;&nbsp;<i class="fas fa-map-pin"></i></p>
+                {% endif %}
+                {% if post.author == user %}
+                    <a href="{% url 'post-changelog' post.id %}" style="padding-left: 0px;padding-right:0px;" class="a-blue">See changelog&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i></a>
+                {% endif %}
+            <div class="clear">
+                <h2 style="position: relative;font-family: 'Open Sans', sans-serif;float:left;font-size: 14px;color:#888;display: block;">{{ post.blog_views }} <i class="far fa-eye"></i>&nbsp;&nbsp;•&nbsp;&nbsp;{{ post.total_likes }}{% if user.is_authenticated %}<form action="{% url 'like-post' post.pk %}" method="POST" style="display: inline-block;">{% csrf_token %}<button type="submit" name="post_id" value="{{ post.id }}" style="border:none;background-color:transparent;color:inherit;"><i class="fas fa-heart"></i></button></form>{% else %} <i class="fas fa-heart"></i>{% endif %}&nbsp;&nbsp;•&nbsp;&nbsp;{{ post.comments.count }} <i class="fas fa-comment"></i></h2>
+                    <sub style="display:none;pointer-events: none;" id="{{ post.id }}">localhost:8000{% url 'post-detail' post.id %}</sub>
+                    <a onclick="copyToClipboard('#{{ post.id }}')" style="position: relative;font-family: 'Open Sans', sans-serif;float:right;font-size: 14px;color:#888;display: block;z-index: 2;">
+                        <button class="btn-linker">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </a>
+            </div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'add_comment' post.pk %}"><button class="btn-addcomment-home btn-stories" style="margin-left: 0px;margin-right: 0px;width:100%;">Add comment</button></a>
+            {% else %}
+                <a href="{% url 'register' %}"><button class="btn-addcomment-home btn-stories" style="margin-left: 0px;margin-right: 0px;width:100%;">Register or log in to comment</button></a>
+            {% endif %}
+            {% for comment in post.comments.all %}
+            {% if forloop.first %}
+                <div class="organize-comments ml-4 mr-4" style="margin-bottom: -5px !important;">
+                    <h1 style="position: relative;font-family: 'Open Sans', sans-serif;font-size:14px;color:#777;text-align: left;">{{ comment.author }} - {{ comment.date_posted }}</h1>
+                    <p style="font-size:15px;color:#777;">{{ comment.write_comment }}</p>
+                </div>
+            <a class="hover-a" href="{% url 'post-detail' post.id %}#comment-section" style="font-family: sans-serif;font-size:14px;line-height:50px;top:-5px;position:relative;font-weight:600;margin-left:20px;color:rgb(152, 152, 152);">See more</a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+    {% if user.is_authenticated %}
+    {% else %}
+            <div class="sign-up-log-in">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+            <div class="sign-up-log-in-2">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+
+            <div class="sign-up-log-in-mobile">
+                <h1 style="position: relative;padding-left: 50px;padding-right: 50px;font-family: 'Open Sans', sans-serif;font-size: 28px;color: white;font-weight: 900;padding-top: 50px;padding-bottom: 50px;display: inline-block;">Free speech deserves an outlet. Create a free account on Product today.</h1>
+
+                <a class="a" href="{% url 'register' %}"><button class="btn-register-2">Register</button></a>
+                <a class="a" href="{% url 'login' %}"><button class="btn-login-2">Login</button></a>
+            </div>
+    {% endif %}
+
+    <script>
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+
+        $(document).ready(function() {
+        $("#pager-dd").animate({left: "0%"});
+        var a = false;
+            $("#nextbtn-dd").click(function() {
+            if (!a) {
+                $("#pager-dd").animate({left: "-200%"});
+                a = true;
+                setTimeout(function() {
+                    $('#nextbtn')[0].click();
+                }, 200);
+            }
+            });
+
+        var b = false;
+            $("#lastbtn-dd").click(function() {
+            if (!b) {
+                $("#pager-dd").animate({left: "200%"});
+                b = true;
+                setTimeout(function() {
+                    $('#lastbtn')[0].click();
+                }, 200);
+            }
+            });
+        });
+    </script>
+{% endblock content %}
+
+

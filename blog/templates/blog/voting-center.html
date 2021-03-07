@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="blog-container p-3">
+    <h1 style="font-family: 'Philosopher', sans-serif;padding: 10px;font-size:32px;color:white;font-weight: 500;">Product Voting Center</h1>
+    <p style="color: #888;font-family:'Open Sans', sans-serif;font-size:15px;padding: 10px;">United States Election Day is <b>November 3.</b> The election is Donald J. Trump vs. Joe Biden.<br /><br />
+    <b style="font-size:16px;">Absentee ballot deadlines</b><br />
+    Request: Received by <b>November 2</b><br />
+    Return by mail: Postmarked by <b>November 2</b><br /><br />
+    You can early vote from <b>October 19 to November 2</b>.<br />
+    <i>The dates and hours may vary based on your location.</i></p>
+    <a href="https://vip.sos.nd.gov/pdfs/Portals/Voting-MailBallotAbsentee.pdf">
+        <div style="position: relative;background-color:#1c1c1c;border: solid 2px #444;border-radius:10px;padding: 25px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png" style="max-width:50px;width:100%;display:inline;">
+            <h1 style="padding-left:15px;padding-right:15px;font-weight: 600;font-family: BlinkMacSystemFont, 'Open Sans', sans-serif;font-size:18px;color:rgb(198, 198, 198);display: inline;">Get your absentee ballot [PDF]</h1>
+        </div>
+    </a>
+    <br />
+
+    <a href="https://vip.sos.nd.gov/AbsenteeTracker.aspx">
+        <mark style="border: solid 1px rgb(164, 164, 164);color:rgb(171, 171, 171);border-radius:10px;line-height: 25px;background-color: transparent;">&nbsp;&nbsp;&nbsp;Use the North Dakota Absentee Tracker&nbsp;&nbsp;&nbsp;</mark>
+    </a>
+    <hr style="margin: 25px 10px;border: solid 2px #444;margin-top: 35px;" />
+    <h2 style="font-family: 'Philosopher', sans-serif;font-size:22px;color:white;padding-left: 10px;padding-right: 10px;padding-top: 10px;">Confused? Read the following.</h2>
+    <p style="color: white;font-family:'Open Sans', sans-serif;font-size:16px;font-weight:800;padding-left:10px;padding-right:10px;">Read this post from <a href="https://www.telegraph.co.uk/news/2020/10/25/2020-election-us-date-when-day-how-voting-work-covid/">The Telegraph</a>.</p>
+</div>
+{% endblock content %}
