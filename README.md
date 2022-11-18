@@ -1,5 +1,5 @@
-# Product
-## [readproduct.com](https://www.readproduct.com/)
+# TheOpenPaper
+## [theopenpaper.com](https://www.theopenpaper.com/)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/vladusatii.svg?style=social)](https://twitter.com/vladusatii)
 
